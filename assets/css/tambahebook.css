@@ -1,0 +1,481 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.header img {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.header h1 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    padding: 20px;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.sidebar img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin: 0 auto;
+}
+
+.sidebar h3 {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.sidebar p {
+    text-align: center;
+    background-color: #A8CFFB;
+    border-radius: 15px;
+    padding: 5px 10px;
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    flex-grow: 1;
+    margin-top: 20px;
+}
+
+.sidebar ul li {
+    padding: 10px;
+    margin: 15px 0;
+    background-color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sidebar ul li:hover {
+    background-color: rgba(168, 207, 251, 0.6);
+    border-radius: 20px;
+}
+
+.sidebar ul li i {
+    margin-right: 10px;
+}
+
+.sidebar ul li a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.sidebar ul li a:focus,
+.sidebar ul li a:active {
+    outline: none;
+    box-shadow: none;
+}
+
+ul li.active {
+    background-color: #ddd;
+    /* Gaya latar belakang untuk item aktif */
+    color: #000;
+    /* Warna teks untuk item aktif */
+}
+
+.breadcrumb {
+    font-size: 14px;
+    margin-bottom: 10px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    margin-top: 0px;
+    border-radius: 5px;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.breadcrumb a:focus,
+.breadcrumb a:active,
+.breadcrumb a:visited {
+    color: inherit;
+    outline: none;
+}
+
+.content {
+    flex: 1;
+    margin-left: 20px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+/* Container untuk menempatkan tombol di baris atas */
+.top-form-container {
+    display: flex;
+    align-items: center;
+    /* Sejajarkan item secara vertikal */
+    gap: 10px;
+    /* Tambahkan jarak antara tombol unggah dan info file */
+    margin-bottom: 10px;
+    /* Tambahkan jarak di bawah container */
+    margin-top: 10px;
+}
+
+/* Gaya untuk tombol unggah */
+.btn-upload {
+    padding: 10px 30px;
+    background-color: white;
+    color: black;
+    /* Warna font hitam */
+    border: 1px solid #007bff;
+    /* Border halus dengan warna biru */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    /* Border halus */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    /* Hapus underline jika ada */
+}
+
+.btn-upload i {
+    font-size: 18px;
+    /* Ukuran ikon lebih besar */
+}
+
+.btn-upload:hover {
+    color: white;
+    /* Warna font putih saat hover */
+    background-color: #007bff;
+    /* Background biru saat hover */
+}
+
+.file-info {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Container utama untuk konten form */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Kontainer utama untuk form */
+.main-form-content {
+    display: flex;
+    justify-content: space-between;
+    /* Menempatkan grup kiri dan kanan dalam satu baris */
+    gap: 10px;
+    /* Menambahkan jarak antara kolom kiri dan kanan */
+    padding: 20px;
+}
+
+/* Container untuk grup form kiri */
+.form-group-left {
+    flex: 0 0 60%;
+    /* 70% lebar untuk form kiri */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* Ruang antara elemen dalam grup kiri */
+}
+
+/* Container untuk grup form kanan */
+.form-group-right {
+    flex: 0 0 40%;
+    /* 30% lebar untuk form kanan */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Ruang antara elemen dalam grup kanan */
+}
+
+/* Styling untuk bidang formulir individual */
+.from-judul {
+    display: flex;
+    flex-direction: column;
+}
+
+.from-judul label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.from-judul input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    /* Memastikan padding termasuk dalam total lebar dan tinggi */
+}
+
+/* Styling untuk bidang formulir individual */
+.from-pengarang {
+    display: flex;
+    flex-direction: column;
+}
+
+.from-pengarang label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.from-pengarang input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    /* Memastikan padding termasuk dalam total lebar dan tinggi */
+}
+
+/* Styling untuk layout dua kolom */
+.form-terbit {
+    display: flex;
+    justify-content: space-between;
+    /* Buat ruang di antara dua kolom */
+    gap: 10px;
+    /* Berikan ruang di antara dua kolom */
+    margin-bottom: 20px;
+    /* Tambahkan ruang di bawah grup */
+}
+
+/* Styling untuk bidang formulir individual */
+.form-field {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+    /* Tetapkan lebar kolom */
+}
+
+.form-field label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-field input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    /* Memastikan padding termasuk dalam total lebar dan tinggi */
+}
+
+/* Styling untuk deskripsi group */
+.from-deskripsi {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Tambahkan ruang antara elemen */
+    margin-bottom: 20px;
+    /* Tambahkan ruang di bawah grup */
+}
+
+.from-deskripsi label {
+    font-weight: bold;
+}
+
+.from-deskripsi textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    /* Memastikan padding termasuk dalam total lebar dan tinggi */
+    resize: vertical;
+    /* Mengizinkan pengubahan ukuran vertikal */
+    height: 150px;
+    /* Menetapkan tinggi default */
+}
+
+.char-counter {
+    font-size: 12px;
+    color: #666;
+    text-align: right;
+    margin-top: 5px;
+}
+
+.from-kategori {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    /* Tambahkan ruang di bawah grup */
+}
+
+.from-kategori label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.from-kategori select {
+    width: 100%;
+    padding: 10px 20px;
+    /* Memberikan ruang di sisi kanan untuk ikon */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: white;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg%20xmlns="http://www.w3.org/2000/svg"%20width="24"%20height="24"%20viewBox="0%200%2024%2024"><path%20fill="none"%20stroke="currentColor"%20stroke-width="2"%20d="M6%207l6%206l6-6"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    /* Posisi ikon di sebelah kanan */
+    background-size: 12px 12px;
+    /* Ukuran ikon */
+}
+
+.from-kategori select:focus {
+    border-color: #007bff;
+}
+
+.select-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* Style untuk Unggah Cover Buku */
+.form-group label {
+    font-weight: bold;
+}
+
+.upload-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    text-align: center;
+    position: relative;
+    /* Menentukan posisi relatif untuk pembungkus */
+}
+
+.preview-container {
+    position: relative;
+    width: 80%;
+    max-width: 350px;
+    /* Atur ukuran maksimal untuk container */
+}
+
+.upload-preview img {
+    width: 100%;
+    max-height: 500px;
+    /* Atur ukuran maksimal untuk gambar */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.upload-preview button {
+    position: absolute;
+    bottom: -70px;
+    /* Atur posisi tombol di pojok kanan bawah */
+    left: 50%;
+    transform: translateX(-50%);
+    /* Pusatkan tombol secara horizontal */
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.upload-preview button:hover {
+    background-color: #0056b3;
+}
+
+.upload-preview .cover-info {
+    margin-top: 5px;
+    /* Berikan jarak antara cover dan info */
+    font-size: 14px;
+    color: #555;
+}
+
+.form-actions {
+    margin-top: 50px;
+    /* Beri jarak ke atas */
+    display: flex;
+    justify-content: center;
+    /* Posisi horizontal di tengah */
+    align-items: center;
+    gap: 10px;
+}
+
+.form-actions button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-actions .btn-cancel {
+    background-color: #ccc;
+    color: #333;
+}
+
+.form-actions .btn-cancel:hover {
+    background-color: #b3b3b3;
+}
+
+.form-actions .btn-save {
+    background-color: #007bff;
+    color: white;
+}
+
+.form-actions .btn-save:hover {
+    background-color: #0056b3;
+}

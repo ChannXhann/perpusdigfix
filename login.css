@@ -1,0 +1,319 @@
+/* Kodingan untuk Body dan Import Google font */
+body {
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* logo perpusdig */
+img {
+    display: block;
+    margin: 0 auto;
+    margin-top: -730px;
+    margin-left: 20px;
+}
+
+
+
+/* CSS untuk logo dan teks PerpusDig */
+.logo-container {
+    display: flex;
+    align-items: center;
+    margin-top: -720px; /* Sesuaikan dengan tata letak Anda */
+    margin-left: -120px;  /* Sesuaikan dengan tata letak Anda */
+}
+
+.logo-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.0em;
+    font-weight:900;
+    margin-left: 130px; /* Jarak antara logo dan teks */
+    display: flex;
+}
+
+.perpus-text {
+    color: #0F78CB; /* Warna biru untuk teks "Perpus" */
+    font-weight: 600;
+}
+
+.dig-text {
+    color: #FF904D; /* Warna oranye untuk teks "Dig" */
+    font-weight: 600;
+}
+
+.hero-image{
+    width: 732px;
+    height: 455px;
+}
+
+
+
+/* Kodingan untuk Wrapper yang membungkus kedua container (putih dan biru) */
+.container-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1450px;
+}
+
+/* Kodingan untuk Container Putih */
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 0 15px;
+    position: absolute;
+    right: 70%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Kodingan untuk Box Login */
+.login-box {
+    height: 65vh;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    transform: translateX(200px);
+}
+
+/* Kodingan untuk Heading di dalam login box */
+.login-box h2 {
+    margin-bottom: 100px;
+    font-size: 2.3em;
+    margin-left: 20%;
+    font-weight: 600;
+    color: #313131;
+    text-align: center;
+    padding-right: 100px;
+}
+
+
+/* Tombol Kembali */
+.back-button {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 15px;
+    left: 35px;
+    font-size: 1.1em;
+    color: #313131;
+    cursor: pointer;
+    padding: 2px 8px;
+    /*Menambahkanpaddinguntukruangbackground*/border-radius: 8px;
+    /*Membuatbackgroundsedikitmembulat*/transition: transform 0.2s, color 0.2s, background-color 0.3s ease;
+    /*Animasitransisi*/
+}
+
+.back-icon {
+    margin-right: 5px;
+    font-size: 1.5em;
+    font-weight: bold;
+    transition: transform 0.20s;
+    /*Animasitransisipadaikon*/-webkit-transition: transform 0.8s;
+    -moz-transition: transform 0.20s;
+    -ms-transition: transform 0.20s;
+    -o-transition: transform 0.20s;
+    -webkit-transition: transform 0.20s;
+}
+
+.back-button:hover {
+    color: #0F78CB;/*Mengubahwarnasaatdihover*/
+    background-color: #e0f0ff; /*Memberikanwarnabackgroundsaatdihover*/
+}
+
+.back-button:active {
+    transform: scale(0.95); /* Mengecilkan sedikit saat diklik */
+    color: #0F78CB; /* Memberikan warna lebih gelap saat diklik */
+    background-color: #b8d9ff; /* Warna background sesuai dengan transform teks saat diklik */
+}
+
+.back-icon:active {
+    transform: scale(0.95); /* Mengecilkan sedikit ikon saat diklik */
+}
+
+
+/* Pesan Selamat Datang */
+.welcome-message {
+    margin-top: -100px;
+    margin-bottom: 30px;
+    font-size: 1em;
+    color: #555;
+    text-align: center;
+}
+
+
+
+/* Kodingan untuk Input User */
+.user-box {
+    position: relative;
+    margin-bottom: 48px;
+}
+
+.user-box input {
+    width: 100%;
+    padding: 10px 10px;
+    background: none;
+    border: 1.6px solid #888888;
+    border-radius: 8px;
+    outline: none;
+    color: #313131;
+    font-size: 1.1em;
+    transition: border-color 0.5s;
+}
+
+.user-box input::placeholder {
+    color: #888;
+    transition: opacity 0.5s ease;
+}
+
+.user-box label {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background: white;
+    padding: 0 5px;
+    font-size: 0.9em;
+    color: #313131;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.user-box input:focus::placeholder {
+    opacity: 0;
+}
+
+.user-box input:focus ~ label,
+.user-box input:not(:placeholder-shown) ~ label {
+    font-family: 'Poppins', Arial, sans-serif;
+    font-weight: 600;
+    top: -25px;
+    left: 0px;
+    color: #000000;
+    font-size: 0.99em;
+}
+
+.user-box input:focus {
+    border-color: #373737;
+}
+
+
+/* MMEPERBAIKI POSISI FORM INPUT DAN TOMBOL */
+.form-section {
+     margin-top: 126px; /* UNTUK MENGATUR JARAK LEBIH KE BAWAH  */
+}
+
+
+
+/* Kodingan Untuk Button */
+.btn {
+    width: 106%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #0F78CB;
+    color: white;
+    overflow: hidden;
+    transition: 0.38s;
+    border: none;
+    border-radius: 8px;
+    font-size: 21px;
+    font-weight: 549;
+    cursor: pointer;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    -webkit-transition: 0.38s;
+    -moz-transition: 0.38s;
+    -ms-transition: 0.38s;
+    -o-transition: 0.38s;
+}
+.btn:hover {
+    background-color: #0F78CB;
+}
+
+/* Kodingan untuk Button
+.btn {
+    position: relative;
+    display: inline-block;
+    padding: 10px 150px;
+    margin-top: 80px;
+    color: #00c3ff;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: 0.4s;
+    border-radius: 18px;
+    border: 2px solid #00c3ff;
+    background-color: transparent;
+    cursor: pointer;
+}
+/* Kodingan untuk Hover Animation pada Button */
+/* .btn:hover {
+    background-color: #00c3ff;
+    color: #fff;
+} */ 
+
+/* Kodingan untuk Button "Lupa Kata Sandi" */
+.btn-lupakatasandi {
+    display: block;
+    /* margin-top: 10px; */
+    margin-bottom: -55px;
+    text-decoration: none;
+    font-size: 15px;
+    color: #313131;
+    position: absolute;
+    right: 3%;
+    bottom: 245px;
+    transition: color 0.3s;
+}
+
+.btn-lupakatasandi:hover {
+    color: red;
+}
+
+/* Kodingan untuk Container Biru */
+.info-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    background-color: #EFEFEF;
+    padding: 40px;
+    border-radius: 10px;
+    color: white;
+    margin-left: 400px;
+    text-align: center;
+    height: 650px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Kodingan untuk Image di dalam Container Biru */
+.info-container img {
+    display: block;
+    margin: 130px auto 0;
+    width: 580px;
+    transform: translateX(-20px) translateY(-20px);
+    /*  */
+}
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+    text-align: left;
+}
+
+  
+  /* Animation */
+  @keyframes slide {
+    0%, 50% { transform: translateX(0); }
+    50.01%, 100% { transform: translateX(-50%); }
+  }
+  
