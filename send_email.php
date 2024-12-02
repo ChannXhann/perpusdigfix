@@ -52,8 +52,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['email'] = $email;
             $_SESSION['otp_expiry'] = time() + (5 * 60); // OTP berlaku selama 5 menit
 
+            try {
+                $mail = new PHPMailer(true);
+            } catch (\Throwable $th) {
+                var_dump($th);
+            }
+
             // Kirim OTP ke email menggunakan PHPMailer
-            $mail = new PHPMailer(true);
+            
             try {
                 // Konfigurasi server SMTP
                 $mail->isSMTP();

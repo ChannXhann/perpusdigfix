@@ -10,10 +10,10 @@ if (!isset($_SESSION['nip']) || empty($_SESSION['nip'])) {
 $nip = $_SESSION['nip'];
 
 // Konfigurasi database
-$host = 'localhost'; // Ganti dengan host database Anda
-$user = 'root';      // Ganti dengan username database Anda
-$password = '';      // Ganti dengan password database Anda
-$db_name = 'perpusdig'; // Ganti dengan nama database Anda
+$host = '127.0.0.1:3306';
+$db_name = 'u137138991_perpusdig';
+$user = 'u137138991_root1';
+$password = 'Adminperpusdig123'; // Ganti dengan nama database Anda
 
 try {
     // Koneksi ke database menggunakan PDO

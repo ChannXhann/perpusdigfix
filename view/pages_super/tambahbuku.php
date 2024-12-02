@@ -2,10 +2,10 @@
 session_start();
 
 // Konfigurasi database
-$host = 'localhost';
-$db_name = 'perpusdig';
-$user = 'root';
-$password = '';
+$host = '127.0.0.1:3306';
+$db_name = 'u137138991_perpusdig';
+$user = 'u137138991_root1';
+$password = 'Adminperpusdig123';
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$db_name;charset=utf8mb4", $user, $password);

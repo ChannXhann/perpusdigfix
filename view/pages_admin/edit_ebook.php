@@ -1,9 +1,9 @@
 <?php
 session_start();
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$db_name = 'perpusdig';
+$host = '127.0.0.1:3306';
+$db_name = 'u137138991_perpusdig';
+$user = 'u137138991_root1';
+$password = 'Adminperpusdig123';
 
 $conn = new mysqli($host, $user, $password, $db_name);
 
