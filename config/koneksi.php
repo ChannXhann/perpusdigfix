@@ -2,10 +2,10 @@
 // config/koneksi.php
 if (!class_exists('Database')) {
     class Database {
-        private $host = "localhost";
-        private $username = "root";
-        private $password = "";
-        private $dbname = "perpusdig";
+        private $host = "127.0.0.1:3306";
+        private $username = "u137138991_root1";
+        private $password = "Adminperpusdig123";
+        private $dbname = "u137138991_perpusdig";
         public $koneksi;
 
         public function __construct() {
