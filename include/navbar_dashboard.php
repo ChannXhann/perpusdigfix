@@ -2,7 +2,7 @@
     <!-- Logo -->
     <div class="logo">
         <a href="index.php">
-            <img src="../assets/images/logo_Navbar.png" alt="Logo PerpusDig">
+            <img src="../../assets/images/logo_Navbar.png" alt="Logo PerpusDig">
         </a>
     </div>
 
