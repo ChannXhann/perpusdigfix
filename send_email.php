@@ -2,15 +2,15 @@
 session_start();
 include 'config/koneksi.php'; // Koneksi ke database
 
+require 'vendor/autoload.php'; // Pastikan path autoload sesuai
 // Import PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 // Autoload PHPMailer
-require 'vendor/autoload.php'; // Pastikan path autoload sesuai
 
-// Membuat objek koneksi database
 $db = new Database();
+// Membuat objek koneksi database
 
 // Fungsi untuk generate OTP
 function generateOTP($length = 4) {
