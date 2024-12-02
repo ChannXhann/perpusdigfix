@@ -312,7 +312,7 @@ body {
           pengguna, serta laporan perpustakaan secara efisien, guna mendukung layanan terbaik bagi masyarakat.</p>
       </div>
       <div class="hero-image">
-        <img src="../../assets/images/image-container.png" alt="Library Image" />
+        <img src="../../assets/images/Image-container.png" alt="Library Image" />
       </div>
     </div>
   </header>
@@ -388,7 +388,7 @@ Dengan koleksi yang beragam serta fasilitas modern, kami berkomitmen untuk menci
 
 <section id="tentang-kami">
   <div class="tentang-kami-container">
-    <img src="../../assets/images/logo_Navbar.png" alt="Logo PerpusDig" class="tentang-kami-img">
+    <img src="../../assets/images/Logo_Navbar.png" alt="Logo PerpusDig" class="tentang-kami-img">
     <div class="tentang-kami-info">
       <h2>Tentang Kami</h2>
       <p>PerpusDig adalah aplikasi perpustakaan digital yang dirancang khusus untuk mempermudah masyarakat Kabupaten Nganjuk dalam mengakses layanan perpustakaan daerah secara daring.</p>
