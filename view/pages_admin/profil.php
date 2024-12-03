@@ -508,6 +508,12 @@ if ($result) {
                 return;
             }
 
+            var nameRegex = /^[a-zA-Z\s']+$/;
+            if (!nameRegex.test(name)) {
+                alert("Nama hanya boleh mengandung huruf, spasi, dan tanda petik tunggal (').");
+                return;
+            }
+            
             // Validasi nomor telepon (harus 11-13 digit)
             if (phone.length < 11 || phone.length > 13 || !/^\d+$/.test(phone)) {
                 alert('Nomor telepon harus berupa angka dan memiliki panjang 11 hingga 13 digit.');
