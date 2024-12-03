@@ -2,10 +2,10 @@
 session_start();
 
 // Konfigurasi database
-$host = "localhost";
-$user = "root";
-$password = "";
-$dbname = "perpusdig";
+$host = '127.0.0.1:3306';
+$db_name = 'u137138991_perpusdig';
+$user = 'u137138991_root1';
+$password = 'Adminperpusdig123';
 
 // Koneksi ke database
 $conn = new mysqli($host, $user, $password, $dbname);
