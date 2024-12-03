@@ -8,7 +8,7 @@ $user = 'u137138991_root1';
 $password = 'Adminperpusdig123';
 
 // Koneksi ke database
-$conn = new mysqli($host, $user, $password, $dbname);
+$conn = new mysqli($host, $user, $password, $db_name);
 
 if ($conn->connect_error) {
     die("Koneksi gagal: " . $conn->connect_error);
