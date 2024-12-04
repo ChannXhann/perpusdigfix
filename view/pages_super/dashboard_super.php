@@ -2,6 +2,11 @@
 session_start();
 include '../../config/koneksi.php'; // Pastikan path benar
 
+// Pastikan user sudah login
+if (!isset($_SESSION['nip']) || empty($_SESSION['nip'])) {
+    die("Error: Anda harus login");
+}
+
 // Buat objek database dan koneksi
 $db = new Database();
 $koneksi = $db->koneksi;
