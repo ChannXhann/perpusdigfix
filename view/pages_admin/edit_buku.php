@@ -169,9 +169,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
             event.preventDefault();
             return false;
         }
-
-        if (!validNameRegex.test(penerbit_buku.value)) {
-            alert('Nama penerbit hanya boleh mengandung huruf, spasi, titik, atau petik satu.');
+        const penerbitRegex = /^[a-zA-Z0-9\s.'’]+$/;
+        if (!validpenerbitRegex.test(penerbit_buku.value)) {
+            alert('Nama penerbit hanya boleh mengandung huruf, angka, spasi, titik, atau petik satu.');
             event.preventDefault();
             return false;
         }
