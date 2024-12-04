@@ -339,6 +339,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             const pdfFile = document.getElementById('file-upload').files[0];
             // Cek apakah file sampul sudah diunggah
             const coverFile = document.getElementById('cover-file').files[0];
+            const penulis = document.getElementById('penulis').value;
+            const penerbit = document.getElementById('penerbit').value;
+
+            // Validasi Penulis: hanya boleh huruf, titik (.), dan simbol petik satu (')
+            const penulisRegex = /^[a-zA-Z\s.'’]+$/;
+            if (!penulisRegex.test(penulis)) {
+                alert("Penulis hanya boleh mengandung huruf, spasi, titik (.), dan simbol petik satu (').");
+                event.preventDefault(); // Menghentikan pengiriman form
+                return;
+            }
+
+            // Validasi Penerbit: hanya boleh huruf, angka, spasi, dan titik (.)
+            const penerbitRegex = /^[a-zA-Z0-9\s.'’]+$/;
+            if (!penerbitRegex.test(penerbit)) {
+                alert("Penerbit hanya boleh mengandung huruf, angka, spasi, dan titik dan petik satu");
+                event.preventDefault(); // Menghentikan pengiriman form
+                return;
+            }
 
             // Cek jika salah satu file belum diunggah
             if (!pdfFile) {
@@ -382,6 +400,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 return;
             }
         });
+
 
     </script>
 

@@ -409,13 +409,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         const validNameRegex = /^[a-zA-Z\s.'’]+$/;
 
         if (!validNameRegex.test(penulis_buku.value)) {
-            alert('Nama penulis hanya boleh mengandung huruf, spasi, titik, atau petik satu.');
+            alert('Penulis hanya boleh mengandung huruf, spasi, titik, atau petik satu.');
             event.preventDefault();
             return false;
         }
-
-        if (!validNameRegex.test(penerbit_buku.value)) {
-            alert('Nama penerbit hanya boleh mengandung huruf, spasi, titik, atau petik satu.');
+        const penerbitRegex = /^[a-zA-Z0-9\s.'’]+$/;
+        if (!validpenerbitRegex.test(penerbit_buku.value)) {
+            alert('Penerbit hanya boleh mengandung huruf, spasi, angka, titik, atau petik satu.');
             event.preventDefault();
             return false;
         }
