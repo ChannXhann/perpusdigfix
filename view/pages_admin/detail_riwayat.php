@@ -1,10 +1,14 @@
 <?php
 session_start();
-if (!isset($_SESSION['nip'])) {
-    // Jika session tidak ditemukan, redirect ke halaman login
-    header("Location: ../../login.php");
+// Pastikan user sudah login
+if (!isset($_SESSION['nip']) || empty($_SESSION['nip'])) {
+    echo "<script>
+            alert('Error: Anda harus login');
+            window.location.href = '../../login.php';
+          </script>";
     exit;
 }
+
 include '../../config/koneksi.php';
 $db = new Database();
 $koneksi = $db->koneksi; // Inisialisasi koneksi PDO

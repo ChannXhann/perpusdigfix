@@ -1,9 +1,13 @@
 <?php
 session_start();
 
-// Cek apakah pengguna sudah login
+// Pastikan user sudah login
 if (!isset($_SESSION['nip']) || empty($_SESSION['nip'])) {
-    die("Error: Anda harus login untuk menambahkan e-book.");
+    echo "<script>
+            alert('Error: Anda harus login');
+            window.location.href = '../../login.php';
+          </script>";
+    exit;
 }
 
 // Ambil NIP dari session login

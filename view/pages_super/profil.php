@@ -537,7 +537,7 @@ if ($result) {
         }
 
 
-
+        
         document.getElementById("uploadPhotoForm").addEventListener("submit", function (e) {
             e.preventDefault();
             var formData = new FormData(this);
@@ -554,7 +554,7 @@ if ($result) {
             };
             xhr.send(formData);
         });
-
+        
         function openSuccessModal() {
             document.getElementById("successModal").style.display = "block";
         }

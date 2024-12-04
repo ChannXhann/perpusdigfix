@@ -1,11 +1,14 @@
 <?php
 session_start();
-
-// Validasi apakah user telah login
-if (!isset($_SESSION['nip'])) {
-    header("Location: login.php");
+// Pastikan user sudah login
+if (!isset($_SESSION['nip']) || empty($_SESSION['nip'])) {
+    echo "<script>
+            alert('Error: Anda harus login');
+            window.location.href = '../../login.php';
+          </script>";
     exit;
 }
+
 
 // Koneksi menggunakan PDO
 $host = '127.0.0.1:3306';

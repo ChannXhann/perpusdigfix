@@ -5,6 +5,15 @@ if (!isset($_SESSION['nip'])) {
     header("Location: ../../login.php");
     exit;
 }
+// Pastikan user sudah login
+if (!isset($_SESSION['nip']) || empty($_SESSION['nip'])) {
+    echo "<script>
+            alert('Error: Anda harus login');
+            window.location.href = '../../login.php';
+          </script>";
+    exit;
+}
+
 ob_start();
 include '../../config/koneksi.php';
 ob_end_flush();

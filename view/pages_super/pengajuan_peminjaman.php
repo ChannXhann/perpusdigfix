@@ -1,5 +1,14 @@
 <?php
 session_start();
+// Pastikan user sudah login
+if (!isset($_SESSION['nip']) || empty($_SESSION['nip'])) {
+    echo "<script>
+            alert('Error: Anda harus login');
+            window.location.href = '../../login.php';
+          </script>";
+    exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
