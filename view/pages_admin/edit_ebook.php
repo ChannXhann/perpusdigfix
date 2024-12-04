@@ -114,6 +114,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 reader.readAsDataURL(file);
             }
         }
+        
+        function validateForm(event) {
+            const penulisInput = document.getElementById('penulis');
+            const penulisValue = penulisInput.value.trim();
+
+            // Pola validasi: huruf, spasi, titik (.), dan petik satu (')
+            const regex = /^[a-zA-Z\s.'’]+$/;
+
+            if (!regex.test(penulisValue)) {
+                event.preventDefault(); // Cegah form submit jika tidak valid
+                alert("Penulis hanya boleh mengandung huruf, spasi, titik (.), dan simbol petik satu (').");
+            }
+        }
+
+        // Pasang event listener pada form
+        document.querySelector('form').addEventListener('submit', validateForm);
     </script>
 </head>
 
@@ -135,19 +151,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <input type="hidden" name="id_ebook" value="<?php echo $bookData['id_ebook'] ?? ''; ?>">
 
                             <label for="judul">Judul</label>
-                            <input type="text" id="judul" name="judul" value="<?php echo $bookData['judul'] ?? ''; ?>" required>
+                            <input type="text" id="judul" name="judul" value="<?php echo $bookData['judul'] ?? ''; ?>"
+                                required>
 
                             <label for="penulis">Penulis</label>
-                            <input type="text" id="penulis" name="penulis" value="<?php echo $bookData['penulis'] ?? ''; ?>" required>
+                            <input type="text" id="penulis" name="penulis"
+                                value="<?php echo $bookData['penulis'] ?? ''; ?>" required>
 
                             <label for="penerbit">Penerbit</label>
-                            <input type="text" id="penerbit" name="penerbit" value="<?php echo $bookData['penerbit'] ?? ''; ?>" required>
+                            <input type="text" id="penerbit" name="penerbit"
+                                value="<?php echo $bookData['penerbit'] ?? ''; ?>" required>
 
                             <label for="tahun_terbit">Tahun Terbit</label>
-                            <input type="text" id="tahun_terbit" name="tahun_terbit" value="<?php echo $bookData['tahun_terbit'] ?? ''; ?>" required>
+                            <input type="text" id="tahun_terbit" name="tahun_terbit"
+                                value="<?php echo $bookData['tahun_terbit'] ?? ''; ?>" required>
 
                             <label for="deskripsi">Deskripsi</label>
-                            <textarea id="deskripsi" name="deskripsi"><?php echo $bookData['sinopsis'] ?? ''; ?></textarea>
+                            <textarea id="deskripsi"
+                                name="deskripsi"><?php echo $bookData['sinopsis'] ?? ''; ?></textarea>
                         </div>
                         <div class="form-group-right">
                             <div class="from-kategori">
@@ -155,7 +176,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <select id="kategori" name="kategori" required>
                                     <option value="Fiksi" <?php echo ($bookData['kategori'] ?? '') === 'Fiksi' ? 'selected' : ''; ?>>Fiksi</option>
                                     <option value="Komik" <?php echo ($bookData['kategori'] ?? '') === 'Komik' ? 'selected' : ''; ?>>Komik</option>
-                                    <option value="Biografi & Otobiografi" <?php echo ($bookData['kategori'] ?? '') === 'Biografi & Otobiografi' ? 'selected' : ''; ?>>Biografi & Otobiografi</option>
+                                    <option value="Biografi & Otobiografi" <?php echo ($bookData['kategori'] ?? '') === 'Biografi & Otobiografi' ? 'selected' : ''; ?>>Biografi & Otobiografi
+                                    </option>
                                     <option value="Bisnis" <?php echo ($bookData['kategori'] ?? '') === 'Bisnis' ? 'selected' : ''; ?>>Bisnis</option>
                                     <option value="Ensiklopedia" <?php echo ($bookData['kategori'] ?? '') === 'Ensiklopedia' ? 'selected' : ''; ?>>Ensiklopedia</option>
                                     <option value="Filsafat" <?php echo ($bookData['kategori'] ?? '') === 'Filsafat' ? 'selected' : ''; ?>>Filsafat</option>
@@ -165,8 +187,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="from-cover">
                                 <label for="sampul">Sampul Buku</label>
-                                <input type="file" id="sampul" name="sampul" accept="image/*" onchange="previewSampul(event)">
-                                <img id="preview" src="<?php echo $sampulBase64 ?: '#'; ?>" alt="Preview Sampul" style="display: <?php echo $sampulBase64 ? 'block' : 'none'; ?>; width: 200px; margin-top: 10px;">
+                                <input type="file" id="sampul" name="sampul" accept="image/*"
+                                    onchange="previewSampul(event)">
+                                <img id="preview" src="<?php echo $sampulBase64 ?: '#'; ?>" alt="Preview Sampul"
+                                    style="display: <?php echo $sampulBase64 ? 'block' : 'none'; ?>; width: 200px; margin-top: 10px;">
                             </div>
                             <div class="from-pdf">
                                 <label for="pdf">Upload PDF Ebook</label>

@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errorMessage = "Tahun terbit harus berupa angka 4 digit.";
     }
 
+
     // Validasi Sampul
     $sampul = $bookData['sampul'] ?? null; // Ambil nilai lama sebagai default
     if (isset($_FILES['sampul']) && $_FILES['sampul']['error'] === UPLOAD_ERR_OK) {
@@ -114,6 +115,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 reader.readAsDataURL(file);
             }
         }
+
+        function validateForm(event) {
+            const penulisInput = document.getElementById('penulis');
+            const penulisValue = penulisInput.value.trim();
+
+            // Pola validasi: huruf, spasi, titik (.), dan petik satu (')
+            const regex = /^[a-zA-Z\s.'’]+$/;
+
+            if (!regex.test(penulisValue)) {
+                event.preventDefault(); // Cegah form submit jika tidak valid
+                alert("Penulis hanya boleh mengandung huruf, spasi, titik (.), dan simbol petik satu (').");
+            }
+        }
+
+        // Pasang event listener pada form
+        document.querySelector('form').addEventListener('submit', validateForm);
     </script>
 </head>
 
