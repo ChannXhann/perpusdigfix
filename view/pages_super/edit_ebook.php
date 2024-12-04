@@ -43,7 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!preg_match("/^[a-zA-Z0-9 .']+$/", $penerbit)) {
         $errorMessage = "Penerbit hanya boleh mengandung huruf, angka, titik, dan petik atas.";
     }
-
+    // Validasi Penulis
+    if (!preg_match("/^[a-zA-Z\s.'’]+$/", $penulis)) {
+        $errorMessage = "Penulis hanya boleh mengandung huruf titik dan petik 1";
+    }
     // Validasi tahun terbit (hanya 4 digit angka)
     if (!preg_match("/^\d{4}$/", $tahun_terbit)) {
         $errorMessage = "Tahun terbit harus berupa angka 4 digit.";
