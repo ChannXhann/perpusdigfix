@@ -4,7 +4,11 @@ include '../../config/koneksi.php'; // Pastikan path benar
 
 // Pastikan user sudah login
 if (!isset($_SESSION['nip']) || empty($_SESSION['nip'])) {
-    die("Error: Anda harus login");
+    echo "<script>
+            alert('Error: Anda harus login');
+            window.location.href = '../../login.php';
+          </script>";
+    exit;
 }
 
 // Buat objek database dan koneksi
