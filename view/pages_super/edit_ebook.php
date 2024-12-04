@@ -1,27 +1,38 @@
 <?php
 session_start();
+
+// Validasi apakah user telah login
+if (!isset($_SESSION['nip'])) {
+    header("Location: login.php");
+    exit;
+}
+
+// Koneksi menggunakan PDO
 $host = '127.0.0.1:3306';
 $db_name = 'u137138991_perpusdig';
 $user = 'u137138991_root1';
 $password = 'Adminperpusdig123';
 
-$conn = new mysqli($host, $user, $password, $db_name);
-
-if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$db_name", $user, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Koneksi gagal: " . $e->getMessage());
 }
 
 $isUpdate = false;
 $bookData = [];
 $sampulBase64 = "";
-$pdfFile = null;
-$errorMessage = ''; // Menambahkan inisialisasi untuk errorMessage
+$errorMessage = '';
 
+// Ambil data e-book jika ID diberikan
 if (isset($_GET['id_ebook'])) {
     $id_ebook = $_GET['id_ebook'];
-    $result = $conn->query("SELECT * FROM e_book WHERE id_ebook = '$id_ebook'");
-    if ($result->num_rows > 0) {
-        $bookData = $result->fetch_assoc();
+    $stmt = $conn->prepare("SELECT * FROM e_book WHERE id_ebook = :id_ebook");
+    $stmt->bindParam(':id_ebook', $id_ebook, PDO::PARAM_INT);
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+        $bookData = $stmt->fetch(PDO::FETCH_ASSOC);
         $isUpdate = true;
 
         // Konversi sampul BLOB ke base64 jika ada data
@@ -31,30 +42,25 @@ if (isset($_GET['id_ebook'])) {
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $judul = $_POST['judul'] ?? '';
     $penulis = $_POST['penulis'] ?? '';
     $penerbit = $_POST['penerbit'] ?? '';
     $tahun_terbit = $_POST['tahun_terbit'] ?? '';
-    $deskripsi = $_POST['deskripsi'] ?? '';
+    $sinopsis = $_POST['deskripsi'] ?? '';
     $kategori = $_POST['kategori'] ?? '';
 
-    // Validasi penerbit (hanya boleh karakter titik dan petik atas)
+    // Validasi input
     if (!preg_match("/^[a-zA-Z0-9 .']+$/", $penerbit)) {
         $errorMessage = "Penerbit hanya boleh mengandung huruf, angka, titik, dan petik atas.";
-    }
-    // Validasi Penulis
-    if (!preg_match("/^[a-zA-Z\s.'’]+$/", $penulis)) {
-        $errorMessage = "Penulis hanya boleh mengandung huruf titik dan petik 1";
-    }
-    // Validasi tahun terbit (hanya 4 digit angka)
-    if (!preg_match("/^\d{4}$/", $tahun_terbit)) {
+    } elseif (!preg_match("/^[a-zA-Z\s.'’]+$/", $penulis)) {
+        $errorMessage = "Penulis hanya boleh mengandung huruf, titik, dan petik atas.";
+    } elseif (!preg_match("/^\d{4}$/", $tahun_terbit)) {
         $errorMessage = "Tahun terbit harus berupa angka 4 digit.";
     }
 
-
-    // Validasi Sampul
-    $sampul = $bookData['sampul'] ?? null; // Ambil nilai lama sebagai default
+    // Validasi file sampul
+    $sampul = $bookData['sampul'] ?? null;
     if (isset($_FILES['sampul']) && $_FILES['sampul']['error'] === UPLOAD_ERR_OK) {
         $sampulType = mime_content_type($_FILES['sampul']['tmp_name']);
         if ($sampulType !== 'image/jpeg') {
@@ -64,8 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // Validasi PDF
-    $pdfFile = $bookData['pdf'] ?? null; // Ambil nilai lama sebagai default
+    // Validasi file PDF
+    $pdfFile = $bookData['pdf'] ?? null;
     if (isset($_FILES['pdf']) && $_FILES['pdf']['error'] === UPLOAD_ERR_OK) {
         $pdfType = mime_content_type($_FILES['pdf']['tmp_name']);
         if ($pdfType !== 'application/pdf') {
@@ -75,25 +81,58 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // Jika tidak ada error, lanjutkan untuk update data
+    // Jika tidak ada error, proses update data
     if (empty($errorMessage)) {
-        // Update query tergantung apakah ada file baru atau tidak
-        $stmt = $conn->prepare("UPDATE e_book SET judul=?, penulis=?, penerbit=?, tahun_terbit=?, sinopsis=?, kategori=?, sampul=IFNULL(?, sampul), pdf=IFNULL(?, pdf) WHERE id_ebook=?");
-        $stmt->bind_param("sssssssii", $judul, $penulis, $penerbit, $tahun_terbit, $deskripsi, $kategori, $sampul, $pdfFile, $id_ebook);
+        try {
+            $query = "UPDATE e_book 
+                      SET judul = :judul, 
+                          penulis = :penulis, 
+                          penerbit = :penerbit, 
+                          tahun_terbit = :tahun_terbit, 
+                          sinopsis = :sinopsis, 
+                          kategori = :kategori, 
+                          sampul = COALESCE(:sampul, sampul), 
+                          pdf = COALESCE(:pdf, pdf) 
+                      WHERE id_ebook = :id_ebook";
 
-        if ($stmt->execute()) {
-            echo "<script>
-                alert('Data berhasil diperbarui!');
-                window.location.href = 'Ebook.php';
-            </script>";
-            exit;
-        } else {
-            $errorMessage = "Gagal memperbarui data buku: " . $stmt->error;
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':judul', $judul);
+            $stmt->bindParam(':penulis', $penulis);
+            $stmt->bindParam(':penerbit', $penerbit);
+            $stmt->bindParam(':tahun_terbit', $tahun_terbit);
+            $stmt->bindParam(':sinopsis', $sinopsis);
+            $stmt->bindParam(':kategori', $kategori);
+
+            if ($sampul !== null) {
+                $stmt->bindParam(':sampul', $sampul, PDO::PARAM_LOB);
+            } else {
+                $stmt->bindValue(':sampul', null, PDO::PARAM_NULL);
+            }
+
+            if ($pdfFile !== null) {
+                $stmt->bindParam(':pdf', $pdfFile, PDO::PARAM_LOB);
+            } else {
+                $stmt->bindValue(':pdf', null, PDO::PARAM_NULL);
+            }
+
+            $stmt->bindParam(':id_ebook', $id_ebook, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                echo "<script>
+                    alert('Data berhasil diperbarui!');
+                    window.location.href = 'Ebook.php';
+                </script>";
+                exit;
+            } else {
+                $errorMessage = "Gagal memperbarui data buku.";
+            }
+        } catch (PDOException $e) {
+            $errorMessage = "Terjadi kesalahan: " . $e->getMessage();
         }
     }
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
