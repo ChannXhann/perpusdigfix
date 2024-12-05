@@ -144,7 +144,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
             const deskripsi = document.getElementById('deskripsi');
             const kategori_buku = document.getElementById('kategori_buku');
             const jumlah_buku = document.getElementById('jumlah_buku');
-
+            const fileInput = document.getElementById('sampul_buku');
+            const file = fileInput.files[0];
+            
             // Validasi isian tidak boleh kosong
             if (!isbn.value || !judul_buku.value || !penulis_buku.value || !penerbit_buku.value || !tahun_terbit_buku.value || !deskripsi.value || !kategori_buku.value || !jumlah_buku.value) {
                 alert('Semua kolom wajib diisi!');
