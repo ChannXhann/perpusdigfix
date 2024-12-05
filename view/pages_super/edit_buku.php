@@ -67,7 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
                 $allowedMimeTypes = ['image/jpeg'];
                 $fileMimeType = mime_content_type($_FILES['sampul_buku']['tmp_name']);
                 if (!in_array($fileMimeType, $allowedMimeTypes)) {
-                    echo "<script>alert('Hanya file dengan format JPG atau JPEG yang diizinkan.');</script>";
+                    echo "<script>
+                    alert('Hanya file dengan format JPG atau JPEG yang diizinkan.');
+                    window.history.back(); 
+                  </script>";
                     exit;
                 }
                 // Mengambil file sampul sebagai data biner
@@ -146,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
             const jumlah_buku = document.getElementById('jumlah_buku');
             const fileInput = document.getElementById('sampul_buku');
             const file = fileInput.files[0];
-            
+
             // Validasi isian tidak boleh kosong
             if (!isbn.value || !judul_buku.value || !penulis_buku.value || !penerbit_buku.value || !tahun_terbit_buku.value || !deskripsi.value || !kategori_buku.value || !jumlah_buku.value) {
                 alert('Semua kolom wajib diisi!');
