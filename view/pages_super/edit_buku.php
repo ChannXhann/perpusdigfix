@@ -130,12 +130,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
     <link rel="stylesheet" href="../../assets/css/tambahbuku.css">
     <script>
         function previewImage(event) {
+            const fileInput = event.target; // Elemen file input
+            const file = fileInput.files[0]; // Ambil file yang dipilih
+
+            // Validasi file
+            const allowedExtensions = /(\.jpg|\.jpeg)$/i;
+            const allowedMimeTypes = ['image/jpeg'];
+
+            if (!file) {
+                alert('Tidak ada file yang dipilih.');
+                return;
+            }
+
+            const fileMimeType = file.type;
+
+            if (!allowedExtensions.exec(file.name) || !allowedMimeTypes.includes(fileMimeType)) {
+                alert('Hanya file dengan format JPG atau JPEG yang diizinkan.');
+                fileInput.value = ''; // Reset file input
+                return; // Hentikan eksekusi jika file tidak valid
+            }
+
+            // Jika file valid, lakukan pratinjau gambar
+            const preview = document.getElementById('sampulPreview');
             const reader = new FileReader();
+
             reader.onload = function () {
-                const output = document.getElementById('sampulPreview');
-                output.src = reader.result;
+                preview.src = reader.result;
             };
-            reader.readAsDataURL(event.target.files[0]);
+            reader.readAsDataURL(file);
         }
 
         function validateForm(event) {
