@@ -26,6 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Jika nik_anggota sudah ada
         $response["kode"] = 0;
         $response["pesan"] = "NIK anggota sudah digunakan";
+        echo json_encode($response);
+        exit; // Hentikan proses jika NIK sudah terdaftar
     } else {
         // Konversi file KTP dan foto anggota menjadi BLOB
         $foto_ktp = file_get_contents($_FILES['foto_ktp']['tmp_name']);
