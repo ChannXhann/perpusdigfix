@@ -63,7 +63,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
                     echo "<script>alert('File terlalu besar. Maksimal 16MB.');</script>";
                     exit;
                 }
-
+                //Validasi Format Gambar hanya jpg dan jpeg
+                $allowedMimeTypes = ['image/jpeg'];
+                $fileMimeType = mime_content_type($_FILES['sampul_buku']['tmp_name']);
+                if (!in_array($fileMimeType, $allowedMimeTypes)) {
+                    echo "<script>alert('Hanya file dengan format JPG atau JPEG yang diizinkan.');</script>";
+                    exit;
+                }
                 // Mengambil file sampul sebagai data biner
                 $sampul_buku = file_get_contents($_FILES['sampul_buku']['tmp_name']);
             } else {
