@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $status_peminjaman = $_POST["status_peminjaman"];
 
     // Cek stok buku berdasarkan id_buku
-    $sqlCheckStok = "SELECT stok FROM buku WHERE id_buku = :id_buku";
+    $sqlCheckStok = "SELECT jumlah_buku FROM buku WHERE id_buku = :id_buku";
     $stmtCheckStok = $db->prepare($sqlCheckStok);
     $stmtCheckStok->bindParam(':id_buku', $id_buku);
     $stmtCheckStok->execute();
