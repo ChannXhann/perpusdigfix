@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
         } catch (Exception $e) {
             echo "<script>alert('Terjadi kesalahan: " . $e->getMessage() . "');</script>";
         }
-        
+
     }
 }
 ?>
@@ -126,93 +126,93 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
     <title>Edit Data Buku</title>
     <link rel="stylesheet" href="../../assets/css/tambahbuku.css">
     <script>
-    function previewImage(event) {
-        const reader = new FileReader();
-        reader.onload = function () {
-            const output = document.getElementById('sampulPreview');
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
-
-    function validateForm(event) {
-        const isbn = document.getElementById('isbn');
-        const judul_buku = document.getElementById('judul_buku');
-        const penulis_buku = document.getElementById('penulis_buku');
-        const penerbit_buku = document.getElementById('penerbit_buku');
-        const tahun_terbit_buku = document.getElementById('tahun_terbit_buku');
-        const deskripsi = document.getElementById('deskripsi');
-        const kategori_buku = document.getElementById('kategori_buku');
-        const jumlah_buku = document.getElementById('jumlah_buku');
-
-        // Validasi isian tidak boleh kosong
-        if (!isbn.value || !judul_buku.value || !penulis_buku.value || !penerbit_buku.value || !tahun_terbit_buku.value || !deskripsi.value || !kategori_buku.value || !jumlah_buku.value) {
-            alert('Semua kolom wajib diisi!');
-            event.preventDefault();  // Mencegah pengiriman form jika ada input kosong
-            return false;
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const output = document.getElementById('sampulPreview');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
         }
 
-        // Validasi ISBN harus 13 digit angka
-        if (!/^\d{13}$/.test(isbn.value)) {
-            alert('ISBN harus terdiri dari 13 digit angka!');
-            isbn.value = ''; // Reset input ISBN
-            event.preventDefault();
-            return false;
+        function validateForm(event) {
+            const isbn = document.getElementById('isbn');
+            const judul_buku = document.getElementById('judul_buku');
+            const penulis_buku = document.getElementById('penulis_buku');
+            const penerbit_buku = document.getElementById('penerbit_buku');
+            const tahun_terbit_buku = document.getElementById('tahun_terbit_buku');
+            const deskripsi = document.getElementById('deskripsi');
+            const kategori_buku = document.getElementById('kategori_buku');
+            const jumlah_buku = document.getElementById('jumlah_buku');
+
+            // Validasi isian tidak boleh kosong
+            if (!isbn.value || !judul_buku.value || !penulis_buku.value || !penerbit_buku.value || !tahun_terbit_buku.value || !deskripsi.value || !kategori_buku.value || !jumlah_buku.value) {
+                alert('Semua kolom wajib diisi!');
+                event.preventDefault();  // Mencegah pengiriman form jika ada input kosong
+                return false;
+            }
+
+            // Validasi ISBN harus 13 digit angka
+            if (!/^\d{13}$/.test(isbn.value)) {
+                alert('ISBN harus terdiri dari 13 digit angka!');
+                isbn.value = ''; // Reset input ISBN
+                event.preventDefault();
+                return false;
+            }
+
+            // Validasi jumlah buku harus angka positif
+            if (isNaN(jumlah_buku.value) || jumlah_buku.value <= 0) {
+                alert('Jumlah buku harus berupa angka positif!');
+                jumlah_buku.value = ''; // Reset input jumlah buku
+                event.preventDefault();
+                return false;
+            }
+
+            // Validasi tahun terbit harus 4 digit angka
+            if (!/^\d{4}$/.test(tahun_terbit_buku.value)) {
+                alert('Tahun terbit harus berupa 4 digit angka!');
+                tahun_terbit_buku.value = ''; // Reset input tahun terbit
+                event.preventDefault();
+                return false;
+            }
+
+            // Validasi nama penulis dan penerbit hanya boleh huruf, spasi, titik, atau petik satu
+            const validNameRegex = /^[a-zA-Z\s.'-]+$/;
+
+            if (!validNameRegex.test(penulis_buku.value)) {
+                alert('Nama penulis hanya boleh mengandung huruf, spasi, titik, atau petik satu.');
+                event.preventDefault();
+                return false;
+            }
+            const penerbitRegex = /^[a-zA-Z0-9\s.'’]+$/;
+            if (!validpenerbitRegex.test(penerbit_buku.value)) {
+                alert('Nama penerbit hanya boleh mengandung huru, angka, spasi, titik, atau petik satu.');
+                event.preventDefault();
+                return false;
+            }
+
+            // Validasi sampul jika diunggah
+            const allowedExtensions = /(\.jpg|\.jpeg)$/i;
+            const allowedMimeTypes = ['image/jpeg'];
+            const fileMimeType = file.type;
+
+            if (!allowedExtensions.exec(file.name) || !allowedMimeTypes.includes(fileMimeType)) {
+                alert('Hanya file dengan format JPG atau JPEG yang diizinkan.');
+                fileInput.value = ''; // Reset file input
+                event.preventDefault();
+                return false;
+            }
+
+            if (file && file.size > 16 * 1024 * 1024) {
+                alert('File terlalu besar. Maksimal 16MB.');
+                fileInput.value = ''; // Reset file input
+                event.preventDefault();
+                return false;
+            }
+
+            return true; // Jika semua validasi berhasil, form akan disubmit
         }
-
-        // Validasi jumlah buku harus angka positif
-        if (isNaN(jumlah_buku.value) || jumlah_buku.value <= 0) {
-            alert('Jumlah buku harus berupa angka positif!');
-            jumlah_buku.value = ''; // Reset input jumlah buku
-            event.preventDefault();
-            return false;
-        }
-
-        // Validasi tahun terbit harus 4 digit angka
-        if (!/^\d{4}$/.test(tahun_terbit_buku.value)) {
-            alert('Tahun terbit harus berupa 4 digit angka!');
-            tahun_terbit_buku.value = ''; // Reset input tahun terbit
-            event.preventDefault();
-            return false;
-        }
-
-        // Validasi nama penulis dan penerbit hanya boleh huruf, spasi, titik, atau petik satu
-        const validNameRegex = /^[a-zA-Z\s.'-]+$/;
-
-        if (!validNameRegex.test(penulis_buku.value)) {
-            alert('Nama penulis hanya boleh mengandung huruf, spasi, titik, atau petik satu.');
-            event.preventDefault();
-            return false;
-        }
-        const penerbitRegex = /^[a-zA-Z0-9\s.'’]+$/;
-        if (!validpenerbitRegex.test(penerbit_buku.value)) {
-            alert('Nama penerbit hanya boleh mengandung huru, angka, spasi, titik, atau petik satu.');
-            event.preventDefault();
-            return false;
-        }
-
-        // Validasi sampul jika diunggah
-        const fileInput = document.getElementById('sampul_buku');
-        const file = fileInput.files[0];
-        const allowedExtensions = /(\.jpg|\.jpeg)$/i;
-
-        if (file && !allowedExtensions.exec(file.name)) {
-            alert('Hanya file dengan format JPG atau JPEG yang diizinkan.');
-            fileInput.value = ''; // Reset file input
-            event.preventDefault();
-            return false;
-        }
-
-        if (file && file.size > 16 * 1024 * 1024) {
-            alert('File terlalu besar. Maksimal 16MB.');
-            fileInput.value = ''; // Reset file input
-            event.preventDefault();
-            return false;
-        }
-
-        return true; // Jika semua validasi berhasil, form akan disubmit
-    }
-</script>
+    </script>
 
 </head>
 
