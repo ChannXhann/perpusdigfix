@@ -323,7 +323,7 @@ body {
     <h2>Layanan Perpustakaan</h2>
     <div class="services-container">
       <!-- Card 1 -->
-      <div class="service-card">
+      <div class="service-card" id="service-card">
         <img src="../../assets/images/image 41.png" alt="Peminjaman Buku">
         <h3>Peminjaman Buku</h3>
         <p>Menyediakan koleksi buku cetak lengkap yang dapat dipinjam oleh anggota perpustakaan.</p>

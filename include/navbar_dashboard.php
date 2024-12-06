@@ -82,7 +82,7 @@
 
     <!-- Menu Navbar -->
     <div class="menu">
-        <a href="../../index.php/#layanan_perpustakaan">Layanan</a>
+        <a href="../../index.php/#service-card">Layanan</a>
         <a href="../../index.php/#tentang-kami">Tentang Kami</a>
         <a href="../../index.php/#fitur">Fitur</a>
         <a href="../../index.php/#kontak">Kontak</a>
