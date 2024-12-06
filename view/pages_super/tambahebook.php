@@ -60,6 +60,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
+    // Validasi duplikasi judul e-book
+    $check_duplicate = $conn->prepare("SELECT * FROM e_book WHERE judul = :judul");
+    $check_duplicate->bindParam(':judul', $judul);
+    $check_duplicate->execute();
+
+    if ($check_duplicate->rowCount() > 0) {
+        echo "<script>
+                alert('Judul e-book sudah ada di database. Harap gunakan judul lain.');
+                window.location.href = 'Ebook.php';
+              </script>";
+        exit();
+    }
+    
     // Proses unggah file sampul sebagai BLOB
     $sampul = null;
     if ($_FILES['sampul']['error'] == 0) {
