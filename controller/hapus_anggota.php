@@ -15,8 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         try {
             $query->execute();
-            header("Location: https://perpusdig.pbltifnganjuk.com/view/pages_super/data_anggota.php");
-            exit();
+            echo "<script>alert('Data Anggota Berhasil Di Hapus!'); window.location.href='../../view/pages_super/data_anggota.php';</script>";
+            exit;
             // Pastikan untuk menghentikan eksekusi lebih lanjut
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage();
