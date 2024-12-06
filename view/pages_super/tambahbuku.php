@@ -50,6 +50,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $kategori_buku = htmlspecialchars($_POST['kategori_buku']);
     $jumlah_buku = (int) htmlspecialchars($_POST['jumlah_buku']);
 
+    // Validasi duplikasi berdasarkan ISBN atau judul
+    $check_duplicate = $conn->prepare(
+        "SELECT * FROM buku WHERE isbn = :isbn OR judul_buku = :judul_buku"
+    );
+    $check_duplicate->bindParam(':isbn', $isbn);
+    $check_duplicate->bindParam(':judul_buku', $judul_buku);
+    $check_duplicate->execute();
+
+    if ($check_duplicate->rowCount() > 0) {
+        echo "<script>
+                alert('ISBN atau Judul Buku sudah ada di database.');
+                window.history.back();
+              </script>";
+        exit;
+    }
+    
     // Proses unggah file sampul
     $sampul_buku = null; // Nilai default untuk BLOB
     if (isset($_FILES['sampul_buku']) && $_FILES['sampul_buku']['error'] == 0) {
@@ -67,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $sampul_buku = file_get_contents($_FILES['sampul_buku']['tmp_name']);
         }
     }
-
+    
     try {
         // Simpan data ke database
         $stmt = $conn->prepare(
