@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nik_anggota'])) {
 
         if ($stmt->rowCount() > 0) {
             // Jika berhasil, tampilkan pesan sukses dan hentikan eksekusi
-            echo "<script>alert('Status verifikasi berhasil diubah menjadi Disetujui dan tanggal pendaftaran diperbarui.'); window.location.href='../view/pages_admin/lihat_data_anggota.php';</script>";
+            echo "<script>alert('Status verifikasi berhasil diubah menjadi Disetujui dan tanggal pendaftaran diperbarui.'); window.location.href='../../view/pages_admin/data_anggota.php';</script>";
             exit;
         } else {
             // Jika tidak ada baris yang diperbarui, tampilkan pesan gagal dan hentikan eksekusi
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nik_anggota'])) {
     }
 } else {
     // Jika akses tidak valid, tampilkan pesan dan hentikan eksekusi
-    echo "<script>alert('Status verifikasi berhasil diubah menjadi Disetujui dan tanggal pendaftaran diperbarui.'); window.location.href='../view/pages_admin/lihat_data_anggota.php';</script>";
+    echo "<script>alert('Akses Tidak Valid'); window.location.href='../../view/pages_admin/data_anggota.php';</script>";
     exit;
 }
 ?>
