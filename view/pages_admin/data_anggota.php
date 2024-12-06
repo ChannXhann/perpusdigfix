@@ -87,7 +87,7 @@ $koneksi = $db->koneksi; // Inisialisasi koneksi dari objek Database
                         <i class='fas fa-eye'></i> <!-- Ikon Mata -->
                     </button>
                 </form>
-                <form method='POST' action='../controller_adm/hapus_anggota.php' style='display:inline;'>
+                <form method='POST' action='../../controller_adm/hapus_anggota.php' style='display:inline;'>
                     <input type='hidden' name='nik_anggota' value='{$row['nik_anggota']}' />
                     <button type='submit' class='action-btn' onclick='return confirm(\"Yakin ingin menghapus data ini?\")'>
                         <i class='fas fa-trash-alt'></i> <!-- Ikon Tempat Sampah -->
