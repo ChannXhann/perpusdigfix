@@ -43,6 +43,6 @@ if ($stmt->execute()) {
     $_SESSION['error'] = "Gagal menambahkan admin.";
 }
 
-header("Location: ../../view/pages_super/data_admin.php"); // Redirect ke halaman Data Admin setelah berhasil
+header("Location: ../../view/pages_super/tambah_data_admin.php"); // Redirect ke halaman Data Admin setelah berhasil
 exit();
 ?>
