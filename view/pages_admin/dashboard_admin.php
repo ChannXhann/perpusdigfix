@@ -26,7 +26,7 @@ $koneksi = $db->koneksi;
 $queryBuku = "SELECT COUNT(*) FROM buku";
 $queryEbook = "SELECT COUNT(*) FROM e_book";
 $queryAnggota = "SELECT COUNT(*) FROM anggota";
-$queryRiwayat = "SELECT COUNT(*) FROM peminjaman WHERE status_peminjaman IN ('selesai', 'ditolak')";
+$queryRiwayat = "SELECT COUNT(*) FROM peminjaman WHERE status_peminjaman IN ('Selesai', 'Ditolak', 'Dibaca')";
 
 // Eksekusi query dan ambil hasilnya
 $jumlahBuku = $koneksi->query($queryBuku)->fetchColumn();
@@ -42,7 +42,7 @@ $queryPeminjaman = "
         peminjaman.status_peminjaman 
     FROM peminjaman
     JOIN e_book ON peminjaman.id_ebook = e_book.id_ebook
-    WHERE peminjaman.status_peminjaman IN ('selesai', 'disetujui')
+    WHERE peminjaman.status_peminjaman IN ('Selesai', 'Disetujui', 'Ditunda')
     ORDER BY peminjaman.tanggal_peminjaman DESC 
     LIMIT 5";
 $peminjamanData = $koneksi->query($queryPeminjaman)->fetchAll(PDO::FETCH_ASSOC);
@@ -109,7 +109,7 @@ $kategoriData = $koneksi->query($queryKategori)->fetchAll(PDO::FETCH_ASSOC);
                                 <span><?php echo $data['tanggal_peminjaman']; ?></span>
                                 <span><?php echo $data['judul_ebook']; ?></span>
                                 <span style="color: #3498db;">
-                                    <?php echo ($data['status_peminjaman'] == 'setuju') ? 'Dibaca' : 'Selesai'; ?>
+                                    <?php echo ($data['status_peminjaman'] == 'Dibaca') ? 'Ditunda' : 'Selesai'; ?>
                                 </span>
                             </li>
                         <?php endforeach; ?>
