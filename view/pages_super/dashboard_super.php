@@ -35,7 +35,7 @@ $queryPeminjaman = "
         peminjaman.status_peminjaman 
     FROM peminjaman
     JOIN e_book ON peminjaman.id_ebook = e_book.id_ebook
-    WHERE peminjaman.status_peminjaman IN ('Selesai', 'Disetujui')
+    WHERE peminjaman.status_peminjaman IN ('Selesai', 'Disetujui', 'Ditunda')
     ORDER BY peminjaman.tanggal_peminjaman DESC 
     LIMIT 5";
 $peminjamanData = $koneksi->query($queryPeminjaman)->fetchAll(PDO::FETCH_ASSOC);

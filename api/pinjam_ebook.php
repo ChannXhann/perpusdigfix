@@ -1,5 +1,6 @@
 <?php
 include '../config/koneksi.php';
+date_default_timezone_set('Asia/Jakarta'); // Atur zona waktu
 
 $response = array();
 $database = new Database();
