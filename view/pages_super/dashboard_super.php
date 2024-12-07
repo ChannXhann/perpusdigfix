@@ -102,7 +102,7 @@ $kategoriData = $koneksi->query($queryKategori)->fetchAll(PDO::FETCH_ASSOC);
                                 <span><?php echo $data['tanggal_peminjaman']; ?></span>
                                 <span><?php echo $data['judul_ebook']; ?></span>
                                 <span style="color: #3498db;">
-                                    <?php echo ($data['status_peminjaman'] == 'Dibaca') ? 'Dibaca' : 'Selesai'; ?>
+                                    <?php echo ($data['status_peminjaman'] == 'Dibaca') ? 'Ditunda' : 'Selesai'; ?>
                                 </span>
                             </li>
                         <?php endforeach; ?>
