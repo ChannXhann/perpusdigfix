@@ -330,7 +330,7 @@ if (isset($_SESSION['error'])) {
 
 
                     <div class="buttons">
-                        <button type="button" onclick="window.history.back()" class="cancel">Batal</button>
+                        <button type="button" onclick="window.location.href='data_admin.php'" class="cancel">Batal</button>
                         <button type="submit" class="save">Simpan</button>
                     </div>
                 </form>
