@@ -31,12 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email_count = $stmt->fetchColumn();
 
         if ($email_count > 0) {
-            // Jika email sudah terdaftar, beri pesan error
-            $_SESSION['error'] = "Email sudah terdaftar. Silakan gunakan email lain.";
-            header("Location: ../../view/pages_super/profil.php");
+            // Jika email sudah terdaftar, beri pesan error dalam format JSON
+            echo json_encode(['status' => 'error', 'message' => 'Email sudah terdaftar. Silakan gunakan email lain.']);
             exit();
         }
     }
+    
     // Periksa apakah ada file foto yang diupload
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
         // Ambil konten foto dan update foto
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Query untuk update data admin
     $query = "UPDATE admin SET email = :email, nama = :name, no_telp = :phone";
-    
+
     // Jika ada foto baru, tambahkan ke query
     if ($foto !== null) {
         $query .= ", foto = :foto";
@@ -59,34 +59,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Persiapkan query
     $stmt = $conn->prepare($query);
-    
+
     // Bind parameter untuk query
     $stmt->bindParam(':nip', $nip, PDO::PARAM_STR);
     $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
     $stmt->bindParam(':phone', $phone, PDO::PARAM_STR);
-    
+
     // Jika ada foto, bind parameter foto
     if ($foto !== null) {
         $stmt->bindParam(':foto', $foto, PDO::PARAM_LOB);
     }
-
+    
     // Eksekusi query
     if ($stmt->execute()) {
-        // Jika berhasil, simpan pesan sukses dalam session
-        $_SESSION['success'] = "Profil berhasil diperbarui.";
-        // Perbarui session nama dan data lainnya
-        $_SESSION['nama'] = $name;
-        $_SESSION['email'] = $email;
-        $_SESSION['no_telp'] = $phone;
-        $_SESSION['foto'] = $foto; // Jika foto diperbarui
+        // Jika berhasil, kirimkan response sukses dalam format JSON
+        echo json_encode(['status' => 'success', 'message' => 'Profil berhasil diperbarui.']);
     } else {
-        // Jika gagal, simpan pesan error dalam session
-        $_SESSION['error'] = "Gagal memperbarui profil.";
+        // Jika gagal, kirimkan response error dalam format JSON
+        echo json_encode(['status' => 'error', 'message' => 'Gagal memperbarui profil.']);
     }
 
-    // Redirect kembali ke halaman profil
-    header("Location: ../../view/pages_super/profil.php");
-    exit();
+    exit(); // Menghentikan eksekusi setelah mengirimkan response
 }
 ?>

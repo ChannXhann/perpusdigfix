@@ -410,18 +410,6 @@ if ($result) {
             color: white;
         }
     </style>
-
-    <script>
-        // Mengambil pesan dari session PHP dan menampilkan alert jika ada pesan error atau sukses
-        <?php if (isset($_SESSION['error'])): ?>
-            alert("<?php echo $_SESSION['error']; ?>");
-            <?php unset($_SESSION['error']); // Hapus session error setelah ditampilkan ?>
-        <?php elseif (isset($_SESSION['success'])): ?>
-            alert("<?php echo $_SESSION['success']; ?>");
-            <?php unset($_SESSION['success']); // Hapus session success setelah ditampilkan ?>
-        <?php endif; ?>
-    </script>
-
 </head>
 
 <body>
@@ -542,16 +530,20 @@ if ($result) {
                         // Tampilkan notifikasi sukses jika profil berhasil diperbarui
                         alert(response.message);
                         refreshPage();
-                    };
+                    }
+                } else {
+                    alert("Terjadi kesalahan dalam proses pembaruan profil.");
                 }
-                xhr.send(formData);
-            }
+            };
+            xhr.send(formData);
         }
 
         function refreshPage() {
             location.reload();
         }
-        
+
+
+
         document.getElementById("uploadPhotoForm").addEventListener("submit", function (e) {
             e.preventDefault();
             var formData = new FormData(this);
@@ -580,7 +572,6 @@ if ($result) {
         function refreshPage() {
             location.reload();
         }
-
     </script>
 </body>
 
