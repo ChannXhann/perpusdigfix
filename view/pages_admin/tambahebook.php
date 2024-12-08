@@ -31,19 +31,31 @@ try {
 // Proses jika form disubmit
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Ambil data dari form
-    $judul = $_POST['judul'];
-    $penulis = $_POST['penulis'];
-    $penerbit = $_POST['penerbit'];
-    $tahun_terbit = $_POST['tahun_terbit'];
-    $sinopsis = $_POST['sinopsis'];
-    $kategori = $_POST['kategori'];
+    $judul = trim($_POST['judul']);
+    $penulis = trim($_POST['penulis']);
+    $penerbit = trim($_POST['penerbit']);
+    $tahun_terbit = trim($_POST['tahun_terbit']);
+    $sinopsis = trim($_POST['sinopsis']);
+    $kategori = trim($_POST['kategori']);
 
-    // Validasi input, pastikan semua data diisi
+    // Validasi input, pastikan semua data diisi dan tidak hanya berisi spasi
     if (empty($judul) || empty($penulis) || empty($penerbit) || empty($tahun_terbit) || empty($sinopsis) || empty($kategori)) {
-        echo "<p style='color: red;'>Semua data harus diisi!</p>";
+        echo "<script>
+           alert('Semua data harus diisi dan tidak boleh hanya berisi spasi!');
+           window.location.href = 'tambahebook.php';
+         </script>";
         exit();
     }
 
+    // Validasi agar tidak hanya berisi spasi
+    if (strlen($judul) == 0 || strlen($penulis) == 0 || strlen($penerbit) == 0 || strlen($sinopsis) == 0 || strlen($kategori) == 0) {
+        echo "<script>
+           alert('Data tidak boleh hanya berisi spasi!');
+           window.location.href = 'tambahebook.php';
+         </script>";
+        exit();
+    }
+    
     // Validasi file sampul, pastikan ada file yang diunggah
     if (!isset($_FILES['sampul']) || $_FILES['sampul']['error'] != 0) {
         echo "<p style='color: red;'>File sampul harus diunggah!</p>";

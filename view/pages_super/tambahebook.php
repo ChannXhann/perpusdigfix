@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Validasi input, pastikan semua data diisi dan tidak hanya berisi spasi
     if (empty($judul) || empty($penulis) || empty($penerbit) || empty($tahun_terbit) || empty($sinopsis) || empty($kategori)) {
         echo "<script>
-            alert('Semua data harus diisi!');
+            alert('Semua data harus diisi dan tidak boleh hanya berisi spasi!');
             window.location.href = 'tambahebook.php';
           </script>";
         exit();
