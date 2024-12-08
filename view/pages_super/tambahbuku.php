@@ -50,6 +50,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $kategori_buku = htmlspecialchars($_POST['kategori_buku']);
     $jumlah_buku = (int) htmlspecialchars($_POST['jumlah_buku']);
 
+     // Validasi input tidak boleh kosong atau hanya berisi spasi
+     if (empty(trim($isbn))) {
+        echo "<script>alert('ISBN tidak boleh kosong atau hanya berisi spasi.'); history.back();</script>";
+        exit;
+    } elseif (empty(trim($judul_buku))) {
+        echo "<script>alert('Judul Buku tidak boleh kosong atau hanya berisi spasi.'); history.back();</script>";
+        exit;
+    } elseif (empty(trim($penulis_buku))) {
+        echo "<script>alert('Penulis Buku tidak boleh kosong atau hanya berisi spasi.'); history.back();</script>";
+        exit;
+    } elseif (empty(trim($penerbit_buku))) {
+        echo "<script>alert('Penerbit Buku tidak boleh kosong atau hanya berisi spasi.'); history.back();</script>";
+        exit;
+    } elseif (empty(trim($tahun_terbit_buku))) {
+        echo "<script>alert('Tahun Terbit Buku tidak boleh kosong atau hanya berisi spasi.'); history.back();</script>";
+        exit;
+    } elseif (!preg_match("/^\d{4}$/", $tahun_terbit_buku)) {
+        echo "<script>alert('Tahun Terbit Buku harus berupa angka 4 digit.'); history.back();</script>";
+        exit;
+    } elseif (empty(trim($deskripsi))) {
+        echo "<script>alert('Deskripsi tidak boleh kosong atau hanya berisi spasi.'); history.back();</script>";
+        exit;
+    } elseif (empty(trim($kategori_buku))) {
+        echo "<script>alert('Kategori Buku tidak boleh kosong atau hanya berisi spasi.'); history.back();</script>";
+        exit;
+    } elseif ($jumlah_buku <= 0) {
+        echo "<script>alert('Jumlah Buku harus lebih dari 0.'); history.back();</script>";
+        exit;
+    }
+    
     // Validasi duplikasi berdasarkan ISBN atau judul
     $check_duplicate = $conn->prepare(
         "SELECT * FROM buku WHERE isbn = :isbn OR judul_buku = :judul_buku"
@@ -115,11 +145,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
