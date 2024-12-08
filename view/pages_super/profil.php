@@ -534,53 +534,53 @@ if ($result) {
             xhr.open("POST", "../../controller/update_profil.php", true);
             xhr.onload = function () {
                 if (xhr.status === 200) {
-                    // Tampilkan notifikasi berhasil
-                    alert('Data berhasil diperbarui!');
-                    refreshPage();
-                } else {
-                    alert('Gagal memperbarui profil. Coba lagi.');
+                    var response = JSON.parse(xhr.responseText); // Parse JSON response
+                    if (response.status === 'error') {
+                        // Tampilkan notifikasi jika email sudah terdaftar
+                        alert(response.message);
+                    } else if (response.status === 'success') {
+                        // Tampilkan notifikasi sukses jika profil berhasil diperbarui
+                        alert(response.message);
+                        refreshPage();
+                    };
                 }
-            };
-            xhr.send(formData);
-        }
+                xhr.send(formData);
+            }
 
-        function refreshPage() {
-            location.reload();
-        }
-
+            function refreshPage() {
+                location.reload();
+            }
 
 
-        document.getElementById("uploadPhotoForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-            var formData = new FormData(this);
 
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", this.action, true);
-            xhr.onload = function () {
-                var response = JSON.parse(xhr.responseText); // Parse JSON response
-                if (response.status === 'error') {
-                    // Tampilkan notifikasi jika email sudah terdaftar
-                    alert(response.message);
-                } else if (response.status === 'success') {
-                    // Tampilkan notifikasi sukses jika profil berhasil diperbarui
-                    alert(response.message);
-                    refreshPage();
-                }
-            };
-            xhr.send(formData);
-        });
+            document.getElementById("uploadPhotoForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+                var formData = new FormData(this);
 
-        function openSuccessModal() {
-            document.getElementById("successModal").style.display = "block";
-        }
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", this.action, true);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        alert('Foto berhasil diupload!');
+                        refreshPage();
+                    } else {
+                        alert('Gagal mengunggah foto.');
+                    }
+                };
+                xhr.send(formData);
+            });
 
-        function closeSuccessModal() {
-            document.getElementById("successModal").style.display = "none";
-        }
+            function openSuccessModal() {
+                document.getElementById("successModal").style.display = "block";
+            }
 
-        function refreshPage() {
-            location.reload();
-        }
+            function closeSuccessModal() {
+                document.getElementById("successModal").style.display = "none";
+            }
+
+            function refreshPage() {
+                location.reload();
+            }
     </script>
 </body>
 
