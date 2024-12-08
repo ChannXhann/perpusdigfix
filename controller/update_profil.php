@@ -32,11 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email_count = $stmt->fetchColumn();
 
         if ($email_count > 0) {
-            // Jika email sudah terdaftar, beri pesan error
+            // Jika email sudah terdaftar, beri pesan error dan tampilkan alert
             $_SESSION['error'] = "Email sudah terdaftar. Silakan gunakan email lain.";
-            header("Location: ../../view/pages_super/profil.php");
+            echo "<script>alert('" . $_SESSION['error'] . "');</script>";
+            unset($_SESSION['error']);
             exit();
         }
+
     }
     // Periksa apakah ada file foto yang diupload
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
