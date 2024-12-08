@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ) {
         echo "<script>
            alert('Semua isian harus diisi dan tidak boleh hanya berisi spasi!');
-           window.location.href = 'tambah_buku.php';
+           window.location.href = 'tambahbuku.php';
          </script>";
         exit;
     }
