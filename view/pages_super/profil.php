@@ -546,41 +546,41 @@ if ($result) {
                 }
                 xhr.send(formData);
             }
+        }
 
-            function refreshPage() {
-                location.reload();
-            }
+        function refreshPage() {
+            location.reload();
+        }
+        
+        document.getElementById("uploadPhotoForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
 
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", this.action, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    alert('Foto berhasil diupload!');
+                    refreshPage();
+                } else {
+                    alert('Gagal mengunggah foto.');
+                }
+            };
+            xhr.send(formData);
+        });
 
+        function openSuccessModal() {
+            document.getElementById("successModal").style.display = "block";
+        }
 
-            document.getElementById("uploadPhotoForm").addEventListener("submit", function (e) {
-                e.preventDefault();
-                var formData = new FormData(this);
+        function closeSuccessModal() {
+            document.getElementById("successModal").style.display = "none";
+        }
 
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", this.action, true);
-                xhr.onload = function () {
-                    if (xhr.status === 200) {
-                        alert('Foto berhasil diupload!');
-                        refreshPage();
-                    } else {
-                        alert('Gagal mengunggah foto.');
-                    }
-                };
-                xhr.send(formData);
-            });
+        function refreshPage() {
+            location.reload();
+        }
 
-            function openSuccessModal() {
-                document.getElementById("successModal").style.display = "block";
-            }
-
-            function closeSuccessModal() {
-                document.getElementById("successModal").style.display = "none";
-            }
-
-            function refreshPage() {
-                location.reload();
-            }
     </script>
 </body>
 
