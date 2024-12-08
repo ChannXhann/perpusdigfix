@@ -2,6 +2,7 @@
 include '../config/koneksi.php';
 $db = new Database();
 $koneksi = $db->koneksi;
+
 if (isset($_GET['id'])) {
     $id_ebook = $_GET['id'];
 
@@ -11,12 +12,16 @@ if (isset($_GET['id'])) {
     $query->execute();
     $data = $query->fetch(PDO::FETCH_ASSOC);
 
-    if ($data) {
+    if ($data && !empty($data['pdf'])) {
+        // Header untuk file PDF
         header('Content-Type: application/pdf');
-        echo $data['file_pdf'];
+        header('Content-Disposition: inline; filename="ebook.pdf"');
+        header('Content-Length: ' . strlen($data['pdf']));
+        echo $data['pdf']; // Output data PDF
     } else {
         echo "File tidak ditemukan.";
     }
 } else {
     echo "ID tidak valid.";
 }
+?>
