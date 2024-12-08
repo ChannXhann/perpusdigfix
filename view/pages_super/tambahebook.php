@@ -35,16 +35,21 @@ try {
 // Proses jika form disubmit
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Ambil data dari form
-    $judul = $_POST['judul'];
-    $penulis = $_POST['penulis'];
-    $penerbit = $_POST['penerbit'];
-    $tahun_terbit = $_POST['tahun_terbit'];
-    $sinopsis = $_POST['sinopsis'];
-    $kategori = $_POST['kategori'];
+    $judul = trim($_POST['judul']);
+    $penulis = trim($_POST['penulis']);
+    $penerbit = trim($_POST['penerbit']);
+    $tahun_terbit = trim($_POST['tahun_terbit']);
+    $sinopsis = trim($_POST['sinopsis']);
+    $kategori = trim($_POST['kategori']);
 
     // Validasi input, pastikan semua data diisi
     if (empty($judul) || empty($penulis) || empty($penerbit) || empty($tahun_terbit) || empty($sinopsis) || empty($kategori)) {
         echo "<p style='color: red;'>Semua data harus diisi!</p>";
+        exit();
+    }
+    // Validasi agar tidak hanya berisi spasi
+    if (strlen($judul) == 0 || strlen($penulis) == 0 || strlen($penerbit) == 0 || strlen($sinopsis) == 0 || strlen($kategori) == 0) {
+        echo "<p style='color: red;'>Data tidak boleh hanya berisi spasi!</p>";
         exit();
     }
 
@@ -72,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               </script>";
         exit();
     }
-    
+
     // Proses unggah file sampul sebagai BLOB
     $sampul = null;
     if ($_FILES['sampul']['error'] == 0) {
@@ -378,7 +383,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 event.preventDefault(); // Menghentikan pengiriman form
                 return;
             }
-            
+
             // Cek jika salah satu file belum diunggah
             if (!pdfFile) {
                 alert("File PDF harus diunggah!");

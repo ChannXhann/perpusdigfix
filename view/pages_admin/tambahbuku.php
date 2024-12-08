@@ -50,6 +50,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $kategori_buku = htmlspecialchars($_POST['kategori_buku']);
     $jumlah_buku = (int) htmlspecialchars($_POST['jumlah_buku']);
 
+    // Validasi input tidak boleh kosong atau hanya berisi spasi
+    if (
+        empty(trim($isbn)) || empty(trim($judul_buku)) || empty(trim($penulis_buku)) || empty(trim($penerbit_buku)) ||
+        empty(trim($tahun_terbit_buku)) || !preg_match("/^\d{4}$/", $tahun_terbit_buku) || empty(trim($deskripsi)) ||
+        empty(trim($kategori_buku)) || $jumlah_buku <= 0
+    ) {
+        echo "<script>
+           alert('Semua isian harus diisi dan tidak boleh hanya berisi spasi!');
+           window.location.href = 'tambahbuku.php';
+         </script>";
+        exit;
+    }
+
     //cek duplikasi buku berdasarkan database
     $check_duplicate = $conn->prepare(
         "SELECT * FROM buku WHERE isbn = :isbn OR judul_buku = :judul_buku"
@@ -156,15 +169,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Fungsi untuk menangani validasi form
     function validateForm(event) {
-        const isbn = document.getElementById('isbn');
-        const judul_buku = document.getElementById('judul_buku');
-        const penulis_buku = document.getElementById('penulis_buku');
-        const penerbit_buku = document.getElementById('penerbit_buku');
-        const tahun_terbit_buku = document.getElementById('tahun_terbit_buku');
-        const deskripsi = document.getElementById('deskripsi');
-        const kategori_buku = document.getElementById('kategori_buku');
-        const jumlah_buku = document.getElementById('jumlah_buku');
+        const isbn = document.getElementById('isbn').value.trim();
+        const judul_buku = document.getElementById('judul_buku').value.trim();
+        const penulis_buku = document.getElementById('penulis_buku').value.trim();
+        const penerbit_buku = document.getElementById('penerbit_buku').value.trim();
+        const tahun_terbit_buku = document.getElementById('tahun_terbit_buku').value.trim();
+        const deskripsi = document.getElementById('deskripsi').value.trim();
+        const kategori_buku = document.getElementById('kategori_buku').value.trim();
+        const jumlah_buku = document.getElementById('jumlah_buku').value.trim();
 
+        // Validasi isian tidak boleh kosong atau hanya berisi spasi
+        if (!isbn || !judul_buku || !penulis_buku || !penerbit_buku || !tahun_terbit_buku || !deskripsi || !kategori_buku || !jumlah_buku) {
+            alert('Semua isian harus diisi dan tidak boleh hanya berisi spasi!');
+            event.preventDefault();
+            return false;
+        }
+        
         // Validasi isian tidak boleh kosong
         if (!isbn.value || !judul_buku.value || !penulis_buku.value || !penerbit_buku.value || !tahun_terbit_buku.value || !deskripsi.value || !kategori_buku.value || !jumlah_buku.value) {
             alert('Semua isian harus diisi!');
