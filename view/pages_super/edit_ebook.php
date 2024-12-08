@@ -53,6 +53,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sinopsis = $_POST['deskripsi'] ?? '';
     $kategori = $_POST['kategori'] ?? '';
 
+    // Validasi input: tidak boleh kosong atau hanya berisi spasi
+    if (empty(trim($judul))) {
+        $errorMessage = "Judul tidak boleh kosong atau hanya berisi spasi.";
+    } elseif (empty(trim($penulis))) {
+        $errorMessage = "Penulis tidak boleh kosong atau hanya berisi spasi.";
+    } elseif (empty(trim($penerbit))) {
+        $errorMessage = "Penerbit tidak boleh kosong atau hanya berisi spasi.";
+    } elseif (empty(trim($tahun_terbit))) {
+        $errorMessage = "Tahun terbit tidak boleh kosong atau hanya berisi spasi.";
+    } elseif (empty(trim($sinopsis))) {
+        $errorMessage = "Sinopsis tidak boleh kosong atau hanya berisi spasi.";
+    } elseif (empty(trim($kategori))) {
+        $errorMessage = "Kategori tidak boleh kosong atau hanya berisi spasi.";
+    }
+    
     // Validasi input
     if (!preg_match("/^[a-zA-Z0-9 .']+$/", $penerbit)) {
         $errorMessage = "Penerbit hanya boleh mengandung huruf, angka, titik, dan petik atas.";
