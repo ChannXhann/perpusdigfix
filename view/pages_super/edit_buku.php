@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
         if ($duplikasi > 0) {
             echo "<script>
                     alert('Error: ISBN atau Judul Buku sudah digunakan oleh buku lain.');
-                    window.history.back();
+                    window.location.href = '../../view/pages_super/lihat_buku.php';
                   </script>";
             exit;
         }

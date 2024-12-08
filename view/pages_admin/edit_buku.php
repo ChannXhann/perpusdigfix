@@ -54,6 +54,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
     if (empty($judul_buku) || empty($isbn) || empty($penulis_buku) || empty($penerbit_buku) || empty($tahun_terbit_buku) || empty($deskripsi) || empty($kategori_buku) || empty($jumlah_buku)) {
         echo "<script>alert('Semua kolom wajib diisi.');</script>";
     } else {
+         // Validasi ISBN dan judul buku agar tidak duplikat dengan buku lain
+         $stmt = $koneksi->prepare("SELECT COUNT(*) FROM buku WHERE (isbn = :isbn OR judul_buku = :judul_buku) AND id_buku != :id_buku");
+         $stmt->bindParam(':isbn', $isbn);
+         $stmt->bindParam(':judul_buku', $judul_buku);
+         $stmt->bindParam(':id_buku', $id_buku, PDO::PARAM_INT);
+         $stmt->execute();
+ 
+         $duplikasi = $stmt->fetchColumn();
+ 
+         if ($duplikasi > 0) {
+             echo "<script>
+                     alert('Error: ISBN atau Judul Buku sudah digunakan oleh buku lain.');
+                     window.location.href = '../../view/pages_super/lihat_buku.php';
+                   </script>";
+             exit;
+         }
         // Jika ada file sampul diupload
         // Periksa jika file sampul diupload
         if (isset($_FILES['sampul_buku']) && !empty($_FILES['sampul_buku']['name'])) {
