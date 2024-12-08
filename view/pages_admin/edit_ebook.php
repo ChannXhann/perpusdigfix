@@ -60,6 +60,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!preg_match("/^\d{4}$/", $tahun_terbit)) {
         $errorMessage = "Tahun terbit harus berupa angka 4 digit.";
     }
+    
+    if (empty($errorMessage)) {
+        try {
+            $stmt = $conn->prepare("SELECT id_ebook FROM e_book WHERE judul = :judul AND id_ebook != :id_ebook");
+            $stmt->bindParam(':judul', $judul);
+            $stmt->bindParam(':id_ebook', $id_ebook, PDO::PARAM_INT);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                $errorMessage = "Judul e-book sudah digunakan oleh e-book lain. Silakan gunakan judul yang berbeda.";
+            }
+        } catch (PDOException $e) {
+            $errorMessage = "Terjadi kesalahan saat validasi judul: " . $e->getMessage();
+        }
+    }
 
     // Validasi file sampul
     $sampul = $bookData['sampul'] ?? null;
