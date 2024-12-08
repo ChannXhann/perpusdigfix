@@ -70,9 +70,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($foto !== null) {
         $stmt->bindParam(':foto', $foto, PDO::PARAM_LOB);
     }
-    
+
     // Eksekusi query
     if ($stmt->execute()) {
+        
+        // Jika berhasil, perbarui session dengan data terbaru
+
+        $_SESSION['nama'] = $name;
+        $_SESSION['email'] = $email;
+        $_SESSION['no_telp'] = $phone;
+
         // Jika berhasil, kirimkan response sukses dalam format JSON
         echo json_encode(['status' => 'success', 'message' => 'Profil berhasil diperbarui.']);
     } else {
