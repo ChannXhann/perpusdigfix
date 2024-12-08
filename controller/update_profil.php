@@ -21,7 +21,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'] ?? $user['email'];  // Gunakan nilai lama jika kosong
     $name = $_POST['name'] ?? $user['nama'];     // Gunakan nilai lama jika kosong
     $phone = $_POST['phone'] ?? $user['no_telp']; // Gunakan nilai lama jika kosong
+    
+    // Validasi email
+    if ($email !== $user['email']) {
+        // Cek apakah email sudah terdaftar
+        $query = "SELECT COUNT(*) FROM admin WHERE email = :email";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+        $email_count = $stmt->fetchColumn();
 
+        if ($email_count > 0) {
+            // Jika email sudah terdaftar, beri pesan error
+            $_SESSION['error'] = "Email sudah terdaftar. Silakan gunakan email lain.";
+            header("Location: ../../view/pages_super/profil.php");
+            exit();
+        }
+    }
     // Periksa apakah ada file foto yang diupload
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
         // Ambil konten foto dan update foto
