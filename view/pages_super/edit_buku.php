@@ -54,20 +54,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
     if (empty($judul_buku) || empty($isbn) || empty($penulis_buku) || empty($penerbit_buku) || empty($tahun_terbit_buku) || empty($deskripsi) || empty($kategori_buku) || empty($jumlah_buku)) {
         echo "<script>alert('Semua kolom wajib diisi.');</script>";
     } else {
-        
-        // Validasi duplikasi berdasarkan ISBN atau judul
-        $check_duplicate = $koneksi->prepare(
-            "SELECT * FROM buku WHERE isbn = :isbn OR judul_buku = :judul_buku"
-        );
-        $check_duplicate->bindParam(':isbn', $isbn);
-        $check_duplicate->bindParam(':judul_buku', $judul_buku);
-        $check_duplicate->execute();
+        // Validasi ISBN dan judul buku agar tidak duplikat dengan buku lain
+        $stmt = $koneksi->prepare("SELECT COUNT(*) FROM buku WHERE (isbn = :isbn OR judul_buku = :judul_buku) AND id_buku != :id_buku");
+        $stmt->bindParam(':isbn', $isbn);
+        $stmt->bindParam(':judul_buku', $judul_buku);
+        $stmt->bindParam(':id_buku', $id_buku, PDO::PARAM_INT);
+        $stmt->execute();
 
-        if ($check_duplicate->rowCount() > 0) {
+        $duplikasi = $stmt->fetchColumn();
+
+        if ($duplikasi > 0) {
             echo "<script>
-                alert('ISBN atau Judul Buku sudah ada di database.');
-                window.location.href = 'lihat_buku.php';
-              </script>";
+                    alert('Error: ISBN atau Judul Buku sudah digunakan oleh buku lain.');
+                    window.history.back();
+                  </script>";
             exit;
         }
         // Jika ada file sampul diupload
