@@ -54,6 +54,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
     if (empty($judul_buku) || empty($isbn) || empty($penulis_buku) || empty($penerbit_buku) || empty($tahun_terbit_buku) || empty($deskripsi) || empty($kategori_buku) || empty($jumlah_buku)) {
         echo "<script>alert('Semua kolom wajib diisi.');</script>";
     } else {
+        
+        // Validasi duplikasi berdasarkan ISBN atau judul
+        $check_duplicate = $koneksi->prepare(
+            "SELECT * FROM buku WHERE isbn = :isbn OR judul_buku = :judul_buku"
+        );
+        $check_duplicate->bindParam(':isbn', $isbn);
+        $check_duplicate->bindParam(':judul_buku', $judul_buku);
+        $check_duplicate->execute();
+
+        if ($check_duplicate->rowCount() > 0) {
+            echo "<script>
+                alert('ISBN atau Judul Buku sudah ada di database.');
+                window.location.href = 'lihat_buku.php';
+              </script>";
+            exit;
+        }
         // Jika ada file sampul diupload
         // Periksa jika file sampul diupload
         if (isset($_FILES['sampul_buku']) && !empty($_FILES['sampul_buku']['name'])) {
