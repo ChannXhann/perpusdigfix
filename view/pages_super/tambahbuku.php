@@ -50,8 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $kategori_buku = htmlspecialchars($_POST['kategori_buku']);
     $jumlah_buku = (int) htmlspecialchars($_POST['jumlah_buku']);
 
-     // Validasi input tidak boleh kosong atau hanya berisi spasi
-     if (empty(trim($isbn))) {
+    // Validasi input tidak boleh kosong atau hanya berisi spasi
+    if (empty(trim($isbn))) {
         echo "<script>alert('ISBN tidak boleh kosong atau hanya berisi spasi.'); history.back();</script>";
         exit;
     } elseif (empty(trim($judul_buku))) {
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<script>alert('Jumlah Buku harus lebih dari 0.'); history.back();</script>";
         exit;
     }
-    
+
     // Validasi duplikasi berdasarkan ISBN atau judul
     $check_duplicate = $conn->prepare(
         "SELECT * FROM buku WHERE isbn = :isbn OR judul_buku = :judul_buku"
@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $sampul_buku = file_get_contents($_FILES['sampul_buku']['tmp_name']);
         }
     }
-    
+
     try {
         // Simpan data ke database
         $stmt = $conn->prepare(
@@ -182,15 +182,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Fungsi untuk menangani validasi form
     function validateForm(event) {
-        const isbn = document.getElementById('isbn');
-        const judul_buku = document.getElementById('judul_buku');
-        const penulis_buku = document.getElementById('penulis_buku');
-        const penerbit_buku = document.getElementById('penerbit_buku');
-        const tahun_terbit_buku = document.getElementById('tahun_terbit_buku');
-        const deskripsi = document.getElementById('deskripsi');
-        const kategori_buku = document.getElementById('kategori_buku');
-        const jumlah_buku = document.getElementById('jumlah_buku');
+        const isbn = document.getElementById('isbn').value.trim();
+        const judul_buku = document.getElementById('judul_buku').value.trim();
+        const penulis_buku = document.getElementById('penulis_buku').value.trim();
+        const penerbit_buku = document.getElementById('penerbit_buku').value.trim();
+        const tahun_terbit_buku = document.getElementById('tahun_terbit_buku').value.trim();
+        const deskripsi = document.getElementById('deskripsi').value.trim();
+        const kategori_buku = document.getElementById('kategori_buku').value.trim();
+        const jumlah_buku = document.getElementById('jumlah_buku').value.trim();
 
+        // Validasi isian tidak boleh kosong atau hanya berisi spasi
+        if (!isbn || !judul_buku || !penulis_buku || !penerbit_buku || !tahun_terbit_buku || !deskripsi || !kategori_buku || !jumlah_buku) {
+            alert('Semua isian harus diisi dan tidak boleh hanya berisi spasi!');
+            event.preventDefault();
+            return false;
+        }
+        
         // Validasi isian tidak boleh kosong
         if (!isbn.value || !judul_buku.value || !penulis_buku.value || !penerbit_buku.value || !tahun_terbit_buku.value || !deskripsi.value || !kategori_buku.value || !jumlah_buku.value) {
             alert('Semua isian harus diisi!');
@@ -327,151 +334,151 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const uploadButton = document.getElementById("upload-cover");
-        const fileInput = document.getElementById("cover-file");
-        const previewImg = document.getElementById("preview-img");
-        const coverName = document.getElementById("cover-name");
-        const coverSize = document.getElementById("cover-size");
+        document.addEventListener("DOMContentLoaded", function () {
+            const uploadButton = document.getElementById("upload-cover");
+            const fileInput = document.getElementById("cover-file");
+            const previewImg = document.getElementById("preview-img");
+            const coverName = document.getElementById("cover-name");
+            const coverSize = document.getElementById("cover-size");
 
-        uploadButton.addEventListener("click", function () {
-            fileInput.click();
-        });
+            uploadButton.addEventListener("click", function () {
+                fileInput.click();
+            });
 
-        fileInput.addEventListener("change", function () {
-            const file = fileInput.files[0];
-            if (file) {
-                const allowedExtensions = /(\.jpg|\.jpeg)$/i;
+            fileInput.addEventListener("change", function () {
+                const file = fileInput.files[0];
+                if (file) {
+                    const allowedExtensions = /(\.jpg|\.jpeg)$/i;
 
-                if (!allowedExtensions.exec(file.name)) {
-                    alert("Hanya file dengan format JPG atau JPEG yang diizinkan.");
-                    fileInput.value = ''; // Reset file input
+                    if (!allowedExtensions.exec(file.name)) {
+                        alert("Hanya file dengan format JPG atau JPEG yang diizinkan.");
+                        fileInput.value = ''; // Reset file input
+                        previewImg.src = "https://via.placeholder.com/";
+                        coverName.textContent = "No cover selected";
+                        coverSize.textContent = "0 KB";
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        previewImg.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+
+                    coverName.textContent = file.name;
+                    coverSize.textContent = (file.size / 1024).toFixed(2) + " KB";
+                } else {
                     previewImg.src = "https://via.placeholder.com/";
                     coverName.textContent = "No cover selected";
                     coverSize.textContent = "0 KB";
-                    return;
                 }
-
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    previewImg.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-
-                coverName.textContent = file.name;
-                coverSize.textContent = (file.size / 1024).toFixed(2) + " KB";
-            } else {
-                previewImg.src = "https://via.placeholder.com/";
-                coverName.textContent = "No cover selected";
-                coverSize.textContent = "0 KB";
-            }
+            });
         });
-    });
 
-    $(document).ready(function () {
-        // Ambil URL saat ini
-        var currentUrl = window.location.pathname.split('/').pop();
+        $(document).ready(function () {
+            // Ambil URL saat ini
+            var currentUrl = window.location.pathname.split('/').pop();
 
-        // Tambahkan kelas 'active' pada elemen <li> yang sesuai
-        $('ul li a').each(function () {
-            var href = $(this).attr('href');
-            if (href === currentUrl) {
-                $(this).parent().addClass('active');
-            }
+            // Tambahkan kelas 'active' pada elemen <li> yang sesuai
+            $('ul li a').each(function () {
+                var href = $(this).attr('href');
+                if (href === currentUrl) {
+                    $(this).parent().addClass('active');
+                }
+            });
         });
-    });
 
-    function validateJumlah() {
-        const jumlahBuku = document.getElementById("jumlah_buku");
-        // Pastikan input hanya angka positif
-        if (isNaN(jumlahBuku.value) || jumlahBuku.value <= 0) {
-            alert('Jumlah buku harus berupa angka positif!');
-            jumlahBuku.value = ''; // Reset input
-        }
-    }
-
-    // Fungsi untuk validasi ISBN
-    function validateISBN() {
-        const isbn = document.getElementById("isbn");
-        // Pastikan ISBN adalah 13 digit angka
-        if (!/^\d{13}$/.test(isbn.value)) {
-            alert('ISBN harus terdiri dari 13 digit angka!');
-            isbn.value = ''; // Reset input
-        }
-    }
-
-    // Fungsi untuk validasi sampul buku
-    function validateSampul() {
-        const fileInput = document.getElementById("cover-file");
-        const file = fileInput.files[0];
-        const allowedExtensions = /(\.jpg|\.jpeg)$/i;
-
-        if (!file || !allowedExtensions.exec(file.name)) {
-            alert("File sampul harus diunggah dengan format JPG atau JPEG!");
-            return false;
-        }
-        return true;
-    }
-
-    // Fungsi untuk menangani validasi form
-    function validateForm(event) {
-        const isbn = document.getElementById('isbn');
-        const judul_buku = document.getElementById('judul_buku');
-        const penulis_buku = document.getElementById('penulis_buku');
-        const penerbit_buku = document.getElementById('penerbit_buku');
-        const tahun_terbit_buku = document.getElementById('tahun_terbit_buku');
-        const deskripsi = document.getElementById('deskripsi');
-        const kategori_buku = document.getElementById('kategori_buku');
-        const jumlah_buku = document.getElementById('jumlah_buku');
-
-        // Validasi isian tidak boleh kosong
-        if (!isbn.value || !judul_buku.value || !penulis_buku.value || !penerbit_buku.value || !tahun_terbit_buku.value || !deskripsi.value || !kategori_buku.value || !jumlah_buku.value) {
-            alert('Semua isian harus diisi!');
-            event.preventDefault();
-            return false;
+        function validateJumlah() {
+            const jumlahBuku = document.getElementById("jumlah_buku");
+            // Pastikan input hanya angka positif
+            if (isNaN(jumlahBuku.value) || jumlahBuku.value <= 0) {
+                alert('Jumlah buku harus berupa angka positif!');
+                jumlahBuku.value = ''; // Reset input
+            }
         }
 
-        // Validasi jumlah harus angka positif
-        if (isNaN(jumlah_buku.value) || jumlah_buku.value <= 0) {
-            alert('Jumlah harus berupa angka positif!');
-            event.preventDefault();
-            return false;
+        // Fungsi untuk validasi ISBN
+        function validateISBN() {
+            const isbn = document.getElementById("isbn");
+            // Pastikan ISBN adalah 13 digit angka
+            if (!/^\d{13}$/.test(isbn.value)) {
+                alert('ISBN harus terdiri dari 13 digit angka!');
+                isbn.value = ''; // Reset input
+            }
         }
 
-        // Validasi tahun terbit harus 4 digit angka
-        if (!/^\d{4}$/.test(tahun_terbit_buku.value)) {
-            alert('Tahun terbit harus berupa 4 digit angka!');
-            event.preventDefault();
-            return false;
+        // Fungsi untuk validasi sampul buku
+        function validateSampul() {
+            const fileInput = document.getElementById("cover-file");
+            const file = fileInput.files[0];
+            const allowedExtensions = /(\.jpg|\.jpeg)$/i;
+
+            if (!file || !allowedExtensions.exec(file.name)) {
+                alert("File sampul harus diunggah dengan format JPG atau JPEG!");
+                return false;
+            }
+            return true;
         }
 
-        // Validasi ISBN harus 13 digit angka
-        validateISBN();
+        // Fungsi untuk menangani validasi form
+        function validateForm(event) {
+            const isbn = document.getElementById('isbn');
+            const judul_buku = document.getElementById('judul_buku');
+            const penulis_buku = document.getElementById('penulis_buku');
+            const penerbit_buku = document.getElementById('penerbit_buku');
+            const tahun_terbit_buku = document.getElementById('tahun_terbit_buku');
+            const deskripsi = document.getElementById('deskripsi');
+            const kategori_buku = document.getElementById('kategori_buku');
+            const jumlah_buku = document.getElementById('jumlah_buku');
 
-        // Validasi sampul harus diupload dan dalam format yang benar
-        if (!validateSampul()) {
-            event.preventDefault();
-            return false;
+            // Validasi isian tidak boleh kosong
+            if (!isbn.value || !judul_buku.value || !penulis_buku.value || !penerbit_buku.value || !tahun_terbit_buku.value || !deskripsi.value || !kategori_buku.value || !jumlah_buku.value) {
+                alert('Semua isian harus diisi!');
+                event.preventDefault();
+                return false;
+            }
+
+            // Validasi jumlah harus angka positif
+            if (isNaN(jumlah_buku.value) || jumlah_buku.value <= 0) {
+                alert('Jumlah harus berupa angka positif!');
+                event.preventDefault();
+                return false;
+            }
+
+            // Validasi tahun terbit harus 4 digit angka
+            if (!/^\d{4}$/.test(tahun_terbit_buku.value)) {
+                alert('Tahun terbit harus berupa 4 digit angka!');
+                event.preventDefault();
+                return false;
+            }
+
+            // Validasi ISBN harus 13 digit angka
+            validateISBN();
+
+            // Validasi sampul harus diupload dan dalam format yang benar
+            if (!validateSampul()) {
+                event.preventDefault();
+                return false;
+            }
+
+            // Validasi nama penulis dan penerbit
+            const validNameRegex = /^[a-zA-Z\s.'’]+$/;
+
+            if (!validNameRegex.test(penulis_buku.value)) {
+                alert('Penulis hanya boleh mengandung huruf, spasi, titik, atau petik satu.');
+                event.preventDefault();
+                return false;
+            }
+            const penerbitRegex = /^[a-zA-Z0-9\s.'’]+$/;
+            if (!validpenerbitRegex.test(penerbit_buku.value)) {
+                alert('Penerbit hanya boleh mengandung huruf, spasi, angka, titik, atau petik satu.');
+                event.preventDefault();
+                return false;
+            }
+
+            return true;
         }
-
-        // Validasi nama penulis dan penerbit
-        const validNameRegex = /^[a-zA-Z\s.'’]+$/;
-
-        if (!validNameRegex.test(penulis_buku.value)) {
-            alert('Penulis hanya boleh mengandung huruf, spasi, titik, atau petik satu.');
-            event.preventDefault();
-            return false;
-        }
-        const penerbitRegex = /^[a-zA-Z0-9\s.'’]+$/;
-        if (!validpenerbitRegex.test(penerbit_buku.value)) {
-            alert('Penerbit hanya boleh mengandung huruf, spasi, angka, titik, atau petik satu.');
-            event.preventDefault();
-            return false;
-        }
-
-        return true;
-    }
-</script>
+    </script>
 
 </body>
 
