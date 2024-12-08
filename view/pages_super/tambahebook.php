@@ -42,14 +42,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sinopsis = trim($_POST['sinopsis']);
     $kategori = trim($_POST['kategori']);
 
-    // Validasi input, pastikan semua data diisi
+    // Validasi input, pastikan semua data diisi dan tidak hanya berisi spasi
     if (empty($judul) || empty($penulis) || empty($penerbit) || empty($tahun_terbit) || empty($sinopsis) || empty($kategori)) {
-        echo "<p style='color: red;'>Semua data harus diisi!</p>";
+        echo "<script>
+            alert('Semua data harus diisi!');
+            window.location.href = 'tambahebook.php';
+          </script>";
         exit();
     }
+
     // Validasi agar tidak hanya berisi spasi
     if (strlen($judul) == 0 || strlen($penulis) == 0 || strlen($penerbit) == 0 || strlen($sinopsis) == 0 || strlen($kategori) == 0) {
-        echo "<p style='color: red;'>Data tidak boleh hanya berisi spasi!</p>";
+        echo "<script>
+            alert('Data tidak boleh hanya berisi spasi!');
+            window.location.href = 'tambahebook.php';
+          </script>";
         exit();
     }
 
