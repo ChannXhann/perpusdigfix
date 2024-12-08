@@ -533,11 +533,17 @@ if ($result) {
             xhr.open("POST", "../../controller_adm/update_profil.php", true);
             xhr.onload = function () {
                 if (xhr.status === 200) {
-                    // Tampilkan notifikasi berhasil
-                    alert('Data berhasil diperbarui!');
-                    refreshPage();
+                    var response = JSON.parse(xhr.responseText); // Parse JSON response
+                    if (response.status === 'error') {
+                        // Tampilkan notifikasi jika email sudah terdaftar
+                        alert(response.message);
+                    } else if (response.status === 'success') {
+                        // Tampilkan notifikasi sukses jika profil berhasil diperbarui
+                        alert(response.message);
+                        refreshPage();
+                    }
                 } else {
-                    alert('Gagal memperbarui profil. Coba lagi.');
+                    alert("Terjadi kesalahan dalam proses pembaruan profil.");
                 }
             };
             xhr.send(formData);

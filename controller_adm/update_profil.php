@@ -22,6 +22,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'] ?? $user['nama'];     // Gunakan nilai lama jika kosong
     $phone = $_POST['phone'] ?? $user['no_telp']; // Gunakan nilai lama jika kosong
 
+    // Validasi email
+    if ($email !== $user['email']) {
+        // Cek apakah email sudah terdaftar
+        $query = "SELECT COUNT(*) FROM admin WHERE email = :email";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+        $email_count = $stmt->fetchColumn();
+
+        if ($email_count > 0) {
+            // Jika email sudah terdaftar, beri pesan error dalam format JSON
+            echo json_encode(['status' => 'error', 'message' => 'Email sudah terdaftar. Silakan gunakan email lain.']);
+            exit();
+        }
+    }
+    
     // Periksa apakah ada file foto yang diupload
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
         // Ambil konten foto dan update foto
@@ -58,20 +74,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Eksekusi query
     if ($stmt->execute()) {
-        // Jika berhasil, simpan pesan sukses dalam session
-        $_SESSION['success'] = "Profil berhasil diperbarui.";
-        // Perbarui session nama dan data lainnya
+        
+        // Jika berhasil, perbarui session dengan data terbaru
+
         $_SESSION['nama'] = $name;
         $_SESSION['email'] = $email;
         $_SESSION['no_telp'] = $phone;
-        $_SESSION['foto'] = $foto; // Jika foto diperbarui
+
+        // Jika berhasil, kirimkan response sukses dalam format JSON
+        echo json_encode(['status' => 'success', 'message' => 'Profil berhasil diperbarui.']);
     } else {
-        // Jika gagal, simpan pesan error dalam session
-        $_SESSION['error'] = "Gagal memperbarui profil.";
+        // Jika gagal, kirimkan response error dalam format JSON
+        echo json_encode(['status' => 'error', 'message' => 'Gagal memperbarui profil.']);
     }
 
-    // Redirect kembali ke halaman profil
-    header("Location: ../../view/pages_admin/profil.php");
-    exit();
+    exit(); // Menghentikan eksekusi setelah mengirimkan response
 }
 ?>
