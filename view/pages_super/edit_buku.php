@@ -51,8 +51,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
     $sampul_buku = $bookData['sampul_buku']; // Default ke sampul lama
 
     // Validasi input
+
+    $inputFields = [$isbn, $judul_buku, $penulis_buku, $penerbit_buku, $tahun_terbit_buku, $deskripsi, $kategori_buku, $jumlah_buku];
+    foreach ($inputFields as $field) {
+        if (empty($field) || strlen(trim($field)) === 0) {
+            echo "<script>alert('Kolom input tidak boleh kosong atau hanya berisi spasi.');</script>";
+            exit;
+        }
+    }
+
     if (empty($judul_buku) || empty($isbn) || empty($penulis_buku) || empty($penerbit_buku) || empty($tahun_terbit_buku) || empty($deskripsi) || empty($kategori_buku) || empty($jumlah_buku)) {
         echo "<script>alert('Semua kolom wajib diisi.');</script>";
+
     } else {
         // Validasi ISBN dan judul buku agar tidak duplikat dengan buku lain
         $stmt = $koneksi->prepare("SELECT COUNT(*) FROM buku WHERE (isbn = :isbn OR judul_buku = :judul_buku) AND id_buku != :id_buku");
@@ -187,7 +197,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
             const jumlah_buku = document.getElementById('jumlah_buku');
             const fileInput = document.getElementById('sampul_buku');
             const file = fileInput.files[0];
+            //Validasi inputan tidak boleh hanya berisi sepasi
+            const inputs = document.querySelectorAll("input[type='text'], input[type='number'], textarea");
 
+            for (const input of inputs) {
+                if (!input.value.trim()) {
+                    alert("Kolom tidak boleh kosong atau hanya berisi spasi.");
+                    input.focus();
+                    event.preventDefault();
+                    return false;
+                }
+            }
             // Validasi isian tidak boleh kosong
             if (!isbn.value || !judul_buku.value || !penulis_buku.value || !penerbit_buku.value || !tahun_terbit_buku.value || !deskripsi.value || !kategori_buku.value || !jumlah_buku.value) {
                 alert('Semua kolom wajib diisi!');
