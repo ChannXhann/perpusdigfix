@@ -21,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'] ?? $user['email'];  // Gunakan nilai lama jika kosong
     $name = $_POST['name'] ?? $user['nama'];     // Gunakan nilai lama jika kosong
     $phone = $_POST['phone'] ?? $user['no_telp']; // Gunakan nilai lama jika kosong
-    
     // Validasi email
     if ($email !== $user['email']) {
         // Cek apakah email sudah terdaftar
@@ -32,11 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email_count = $stmt->fetchColumn();
 
         if ($email_count > 0) {
-            // Jika email sudah terdaftar, tampilkan alert dan redirect ke halaman profil
-            echo "<script>alert('Email sudah terdaftar. Silakan gunakan email lain.'); window.location.href = '../../view/pages_super/profil.php';</script>";
+            // Jika email sudah terdaftar, beri pesan error
+            $_SESSION['error'] = "Email sudah terdaftar. Silakan gunakan email lain.";
+            header("Location: ../../view/pages_super/profil.php");
             exit();
         }
-
     }
     // Periksa apakah ada file foto yang diupload
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {

@@ -410,6 +410,18 @@ if ($result) {
             color: white;
         }
     </style>
+
+    <script>
+        // Mengambil pesan dari session PHP dan menampilkan alert jika ada pesan error atau sukses
+        <?php if (isset($_SESSION['error'])): ?>
+            alert("<?php echo $_SESSION['error']; ?>");
+            <?php unset($_SESSION['error']); // Hapus session error setelah ditampilkan ?>
+        <?php elseif (isset($_SESSION['success'])): ?>
+            alert("<?php echo $_SESSION['success']; ?>");
+            <?php unset($_SESSION['success']); // Hapus session success setelah ditampilkan ?>
+        <?php endif; ?>
+    </script>
+
 </head>
 
 <body>
@@ -537,7 +549,7 @@ if ($result) {
         }
 
 
-        
+
         document.getElementById("uploadPhotoForm").addEventListener("submit", function (e) {
             e.preventDefault();
             var formData = new FormData(this);
@@ -545,16 +557,19 @@ if ($result) {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", this.action, true);
             xhr.onload = function () {
-                if (xhr.status === 200) {
-                    alert('Foto berhasil diupload!');
+                var response = JSON.parse(xhr.responseText); // Parse JSON response
+                if (response.status === 'error') {
+                    // Tampilkan notifikasi jika email sudah terdaftar
+                    alert(response.message);
+                } else if (response.status === 'success') {
+                    // Tampilkan notifikasi sukses jika profil berhasil diperbarui
+                    alert(response.message);
                     refreshPage();
-                } else {
-                    alert('Gagal mengunggah foto.');
                 }
             };
             xhr.send(formData);
         });
-        
+
         function openSuccessModal() {
             document.getElementById("successModal").style.display = "block";
         }
