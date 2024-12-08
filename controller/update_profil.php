@@ -32,10 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email_count = $stmt->fetchColumn();
 
         if ($email_count > 0) {
-            // Jika email sudah terdaftar, beri pesan error dan tampilkan alert
-            $_SESSION['error'] = "Email sudah terdaftar. Silakan gunakan email lain.";
-            echo "<script>alert('" . $_SESSION['error'] . "');</script>";
-            unset($_SESSION['error']);
+            // Jika email sudah terdaftar, tampilkan alert dan redirect ke halaman profil
+            echo "<script>alert('Email sudah terdaftar. Silakan gunakan email lain.'); window.location.href = '../../view/pages_super/profil.php';</script>";
             exit();
         }
 
