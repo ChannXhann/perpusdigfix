@@ -7,28 +7,32 @@ $db = $database->koneksi;
 
 if ($db) {
     try {
-        // Pastikan `id_user` dan `id_ebook` diberikan
+        // Pastikan id_user dan id_ebook diberikan
         $id_user = isset($_GET['id_user']) ? $_GET['id_user'] : null;
 
         if ($id_user) {
             // Query dengan JOIN untuk mengambil data dari tabel peminjaman dan ebook
             $sql = "
                 SELECT 
-                    peminjaman.*,
-                    buku.penulis_buku,
-                    buku.sampul_buku 
-                FROM 
-                    peminjaman 
-                JOIN 
-                    buku 
-                ON 
-                    peminjaman.id_buku = buku.id_buku
-                WHERE 
-                    peminjaman.id_user = :id_user 
-                AND 
-                    peminjaman.id_buku IS NOT NULL
-                ORDER BY 
-                    peminjaman.tanggal_peminjaman DESC
+                peminjaman.*,
+                buku.penulis_buku,
+                buku.sampul_buku 
+            FROM 
+                peminjaman 
+            JOIN 
+                buku 
+            ON 
+                peminjaman.id_buku = buku.id_buku
+            WHERE 
+                peminjaman.id_user = :id_user 
+            AND 
+                peminjaman.id_buku IS NOT NULL
+            ORDER BY 
+                CASE 
+                    WHEN peminjaman.status_peminjaman = 'Ditunda' THEN 1
+                    ELSE 2
+                END,
+                peminjaman.tanggal_peminjaman DESC;
             ";
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':id_user', $id_user);
@@ -40,7 +44,7 @@ if ($db) {
                 // Ambil data dan masukkan ke array
                 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                // Konversi kolom `sampul_ebook` ke base64
+                // Konversi kolom sampul_ebook ke base64
                 foreach ($data as &$item) {
                     if ($item['sampul_buku']) {
                         $item['sampul_buku'] = base64_encode($item['sampul_buku']);
