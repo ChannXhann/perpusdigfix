@@ -511,6 +511,13 @@ if ($result) {
                 alert('Semua data harus diisi!');
                 return;
             }
+            
+            // Validasi format email (harus menggunakan @gmail.com dan tidak mengandung karakter khusus, spasi)
+            var emailRegex = /^[a-zA-Z0-9]+@gmail\.com$/;
+            if (!emailRegex.test(email)) {
+                alert('Email harus menggunakan domain @gmail.com dan hanya boleh terdiri dari huruf dan angka.');
+                return;
+            }
 
             var nameRegex = /^[a-zA-Z\s']+$/;
             if (!nameRegex.test(name)) {

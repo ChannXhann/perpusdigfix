@@ -9,53 +9,57 @@ if (isset($_POST['submit'])) {
     $pass = $_POST['password'];
 
     if (!empty(trim($email)) && !empty(trim($pass))) {
-        try {
-            // Buat instance dari Database dan koneksi
-            $database = new Database();
-            $koneksi = $database->koneksi;
+        if (!preg_match('/^[0-9]+@gmail\.com$/', $email)) {
+            $error = 'Email harus menggunakan domain @gmail.com dan hanya boleh mengandung angka sebelum @.';
+        } else {
+            try {
+                // Buat instance dari Database dan koneksi
+                $database = new Database();
+                $koneksi = $database->koneksi;
 
-            // Query menggunakan prepared statement
-            $query = "SELECT * FROM admin WHERE email = :email";
-            $stmt = $koneksi->prepare($query);
+                // Query menggunakan prepared statement
+                $query = "SELECT * FROM admin WHERE email = :email";
+                $stmt = $koneksi->prepare($query);
 
-            // Menggunakan bindParam untuk mengikat parameter
-            $stmt->bindParam(':email', $email);
+                // Menggunakan bindParam untuk mengikat parameter
+                $stmt->bindParam(':email', $email);
 
-            // Eksekusi statement
-            $stmt->execute();
+                // Eksekusi statement
+                $stmt->execute();
 
-            if ($stmt->rowCount() > 0) {
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                $hashedPassword = $row['password'];
+                if ($stmt->rowCount() > 0) {
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $hashedPassword = $row['password'];
 
-                // Verifikasi password (hash MD5)
-                // Jika password benar
-                if (md5($pass) === $hashedPassword) {
-                    // Simpan data ke dalam sesi
-                    $_SESSION['nip'] = $row['nip'];
-                    $_SESSION['nama'] = $row['nama'];
-                    $_SESSION['foto'] = $row['foto'];
-                    $_SESSION['no_telp'] = $row['no_telp']; // Pastikan kolom 'foto' ada di database
+                    // Verifikasi password (hash MD5)
+                    // Jika password benar
+                    if (md5($pass) === $hashedPassword) {
+                        // Simpan data ke dalam sesi
+                        $_SESSION['nip'] = $row['nip'];
+                        $_SESSION['nama'] = $row['nama'];
+                        $_SESSION['foto'] = $row['foto'];
+                        $_SESSION['no_telp'] = $row['no_telp']; // Pastikan kolom 'foto' ada di database
 
-                    // Redirect berdasarkan level
-                    if ($row['level'] == 1) {
-                        header('Location: view/pages_super/dashboard_super.php');
-                        exit();
-                    } elseif ($row['level'] == 2) {
-                        header('Location: view/pages_admin/dashboard_admin.php');
-                        exit();
+                        // Redirect berdasarkan level
+                        if ($row['level'] == 1) {
+                            header('Location: view/pages_super/dashboard_super.php');
+                            exit();
+                        } elseif ($row['level'] == 2) {
+                            header('Location: view/pages_admin/dashboard_admin.php');
+                            exit();
+                        } else {
+                            $error = 'Level tidak dikenali!';
+                        }
                     } else {
-                        $error = 'Level tidak dikenali!';
+                        $error = 'Password salah!';
                     }
-                } else {
-                    $error = 'Password salah!';
-                }
 
-            } else {
-                $error = 'Email tidak ditemukan!';
+                } else {
+                    $error = 'Email tidak ditemukan!';
+                }
+            } catch (PDOException $e) {
+                $error = 'Terjadi kesalahan: ' . $e->getMessage();
             }
-        } catch (PDOException $e) {
-            $error = 'Terjadi kesalahan: ' . $e->getMessage();
         }
     } else {
         $error = 'Data tidak boleh kosong!';
@@ -157,13 +161,27 @@ if (isset($_POST['submit'])) {
         const togglePassword = document.getElementById("togglePassword");
         const passwordField = document.getElementById("password");
 
-        togglePassword.addEventListener("click", function() {
+        togglePassword.addEventListener("click", function () {
             // Toggle tipe input password
             const type = passwordField.type === "password" ? "text" : "password";
             passwordField.type = type;
 
             // Toggle eye icon (menjadi mata tertutup jika password tersembunyi)
             this.classList.toggle("fa-eye-slash");
+        });
+    </script>
+    <script>
+        document.querySelector("form").addEventListener("submit", function (event) {
+            const emailField = document.getElementById("email");
+            const email = emailField.value;
+
+            // Regex untuk validasi email @gmail.com dengan angka saja sebelum @
+            const regex = /^[0-9]+@gmail\.com$/;
+
+            if (!regex.test(email)) {
+                alert("Email harus menggunakan domain @gmail.com dan hanya boleh mengandung angka sebelum @.");
+                event.preventDefault(); // Mencegah pengiriman form
+            }
         });
     </script>
 </body>
