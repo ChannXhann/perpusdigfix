@@ -485,20 +485,6 @@ $koneksi = $db->koneksi; // Inisialisasi koneksi dari objek Database
                             } ?>
                         </tbody>
                     </table>
-                    <div class="pagination">
-                        <button>&lt;</button>
-                        <button>1</button>
-                        <button>2</button>
-                        <button>3</button>
-                        <button>4</button>
-                        <button>&gt;</button>
-                        <select>
-                            <option>10</option>
-                            <option>20</option>
-                            <option>30</option>
-                        </select>
-                        <span>/Halaman</span>
-                    </div>
             </div>
         </div>
     </div>

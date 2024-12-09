@@ -482,19 +482,6 @@ $koneksi = $db->koneksi; // Inisialisasi koneksi dari objek Database
             </div>
         </div>
     </div>
-    <div class="pagination">
-        <button class="active">1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>4</button>
-        <button>&gt;</button>
-        <select>
-            <option>10</option>
-            <option>20</option>
-            <option>30</option>
-        </select>
-        <span>/Halaman</span>
-    </div>
 
     <script>
         document.getElementById('searchInput').addEventListener('input', function() {
