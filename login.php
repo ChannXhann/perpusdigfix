@@ -5,7 +5,7 @@ session_start();
 $error = '';
 
 if (isset($_POST['submit'])) {
-    $email = $_POST['email'];
+    $email = trim($_POST['email']);
     $pass = $_POST['password'];
 
     if (!empty(trim($email)) && !empty(trim($pass))) {
