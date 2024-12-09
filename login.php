@@ -9,8 +9,8 @@ if (isset($_POST['submit'])) {
     $pass = $_POST['password'];
 
     if (!empty(trim($email)) && !empty(trim($pass))) {
-        if (!preg_match('/^[0-9]+@gmail\.com$/', $email)) {
-            $error = 'Email harus menggunakan domain @gmail.com dan hanya boleh mengandung angka sebelum @.';
+        if (!preg_match('/^[a-zA-Z0-9]+@gmail\.com$/', $email)) {
+            $error = 'Email harus menggunakan domain @gmail.com, hanya boleh mengandung huruf dan angka tanpa spasi atau karakter khusus.';
         } else {
             try {
                 // Buat instance dari Database dan koneksi
@@ -176,7 +176,9 @@ if (isset($_POST['submit'])) {
             const email = emailField.value;
 
             // Regex untuk validasi email @gmail.com dengan angka saja sebelum @
-            const regex = /^[0-9]+@gmail\.com$/;
+            if (!preg_match('/^[a-zA-Z0-9]+@gmail\.com$/', $email)) {
+                $error = 'Email harus menggunakan domain @gmail.com, hanya boleh mengandung huruf dan angka tanpa spasi atau karakter khusus.';
+            }
 
             if (!regex.test(email)) {
                 alert("Email harus menggunakan domain @gmail.com dan hanya boleh mengandung angka sebelum @.");
