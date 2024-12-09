@@ -63,6 +63,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
 
+     // Validasi nama pengarang: hanya huruf, spasi, titik, atau koma
+     if (!preg_match("/^[a-zA-Z\s.,]+$/", $penulis_buku)) {
+        echo "<script>
+           alert('Nama pengarang hanya boleh berisi huruf, spasi, titik, atau koma!');
+           window.location.href = 'tambahbuku.php';
+         </script>";
+        exit;
+    }
+
+    // Validasi ISBN: harus 13 digit angka
+    if (!preg_match("/^\d{13}$/", $isbn)) {
+        echo "<script>
+           alert('ISBN harus terdiri dari 13 digit angka!');
+           window.location.href = 'tambahbuku.php';
+         </script>";
+        exit;
+    }
+
+    // Validasi tahun terbit: harus 4 digit angka
+    if (!preg_match("/^\d{4}$/", $tahun_terbit_buku)) {
+        echo "<script>
+           alert('Tahun terbit harus berupa 4 digit angka!');
+           window.location.href = 'tambahbuku.php';
+         </script>";
+        exit;
+    }
+    
     // Validasi duplikasi berdasarkan ISBN atau judul
     $check_duplicate = $conn->prepare(
         "SELECT * FROM buku WHERE isbn = :isbn OR judul_buku = :judul_buku"
