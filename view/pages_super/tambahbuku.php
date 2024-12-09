@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Validasi tahun terbit: harus 4 digit angka
     if (!preg_match("/^\d{4}$/", $tahun_terbit_buku) || $tahun_terbit_buku > date('Y') || $tahun_terbit_buku < 1000) {
         echo "<script>
-           alert('Tahun terbit harus berupa 4 digit angka dan masuk akal!');
+           alert('Tahun terbit harus berupa 4 digit angka tidak melebihi tahun saat ini dan masuk akal!');
            window.location.href = 'tambahbuku.php';
          </script>";
         exit;
