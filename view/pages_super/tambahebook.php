@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           </script>";
         exit();
     }
-
+    
     // Validasi agar tidak hanya berisi spasi
     if (strlen($judul) == 0 || strlen($penulis) == 0 || strlen($penerbit) == 0 || strlen($sinopsis) == 0 || strlen($kategori) == 0) {
         echo "<script>
@@ -58,6 +58,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             window.location.href = 'tambahebook.php';
           </script>";
         exit();
+    }
+    // Validasi nama pengarang: hanya huruf, spasi, titik, atau koma dan koma atas
+    if (!preg_match("/^[a-zA-Z\s.,']+$/", $penulis)) {
+        echo "<script>
+           alert('Nama pengarang hanya boleh berisi huruf, spasi, titik, koma atau petik atas!');
+           window.location.href = 'tambahebook.php';
+         </script>";
+        exit;
+    }
+    //Validasi Tahun Terbit harus 4 angka , dan tidak lebih dari tahun ini , dan masuk akal
+    if (!preg_match("/^\d{4}$/", $tahun_terbit) || $tahun_terbit > date('Y') || $tahun_terbit < 1000) {
+        echo "<script>
+           alert('Tahun terbit harus berupa 4 digit angka tidak melebihi tahun saat ini dan masuk akal!');
+           window.location.href = 'tambahebook.php';
+         </script>";
+        exit;
     }
 
     // Validasi file sampul, pastikan ada file yang diunggah

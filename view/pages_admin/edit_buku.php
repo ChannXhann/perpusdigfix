@@ -51,13 +51,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
     $sampul_buku = $bookData['sampul_buku']; // Default ke sampul lama
 
     // Validasi input
-
     $inputFields = [$isbn, $judul_buku, $penulis_buku, $penerbit_buku, $tahun_terbit_buku, $deskripsi, $kategori_buku, $jumlah_buku];
     foreach ($inputFields as $field) {
         if (empty($field) || strlen(trim($field)) === 0) {
             echo "<script>alert('Kolom input tidak boleh kosong atau hanya berisi spasi.');</script>";
             exit;
         }
+    }
+    //Validasi ISBN hanya 13 digit
+    if (!preg_match('/^\d{13}$/', $isbn)) {
+        echo "<script>
+               alert('ISBN harus berupa 13 digit angka.');
+               window.location.href = edit_buku.php;
+             </script>";
+        exit;
+    }
+    // Validasi nama penulis: hanya huruf, spasi, titik, koma, dan petik atas
+    if (!preg_match('/^[a-zA-Z\s.,\']+$/', $penulis_buku)) {
+        echo "<script>
+       alert('Nama penulis hanya boleh berisi huruf, spasi, titik, koma, atau petik atas.');
+       window.location.href = edit_buku.php;
+     </script>";
+        exit;
+    }
+
+    // Validasi tahun terbit: hanya angka dan harus kurang dari atau sama dengan tahun sekarang
+    $currentYear = date('Y');
+    if (!preg_match('/^\d{4}$/', $tahun_terbit_buku) || $tahun_terbit_buku > $currentYear || $tahun_terbit_buku < 1000) {
+        echo "<script>
+       alert('Tahun terbit harus berupa angka 4 digit dan tidak boleh lebih dari tahun $currentYear, dan masuk akal');
+       window.location.href = edit_buku.php;
+     </script>";
+        exit;
+    }
+
+    // Validasi jumlah buku: harus angka positif
+    if (!filter_var($jumlah_buku, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]])) {
+        echo "<script>
+       alert('Jumlah buku harus berupa angka positif.');
+       window.location.href = edit_buku.php;
+     </script>";
+        exit;
     }
 
     if (empty($judul_buku) || empty($isbn) || empty($penulis_buku) || empty($penerbit_buku) || empty($tahun_terbit_buku) || empty($deskripsi) || empty($kategori_buku) || empty($jumlah_buku)) {
@@ -197,7 +231,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
                     return false;
                 }
             }
-            
+
             // Validasi isian tidak boleh kosong
             if (!isbn.value || !judul_buku.value || !penulis_buku.value || !penerbit_buku.value || !tahun_terbit_buku.value || !deskripsi.value || !kategori_buku.value || !jumlah_buku.value) {
                 alert('Semua kolom wajib diisi!');

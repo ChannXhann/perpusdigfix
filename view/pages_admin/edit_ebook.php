@@ -68,12 +68,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     // Validasi input
-    if (!preg_match("/^[a-zA-Z0-9 .']+$/", $penerbit)) {
+    if (!preg_match("/^[a-zA-Z0-9 .,']+$/", $penerbit)) {
         $errorMessage = "Penerbit hanya boleh mengandung huruf, angka, titik, dan petik atas.";
     } elseif (!preg_match("/^[a-zA-Z\s.'’]+$/", $penulis)) {
         $errorMessage = "Penulis hanya boleh mengandung huruf, titik, dan petik atas.";
     } elseif (!preg_match("/^\d{4}$/", $tahun_terbit)) {
         $errorMessage = "Tahun terbit harus berupa angka 4 digit.";
+    } elseif ($tahun_terbit > date('Y') || $tahun_terbit < 1000) {
+        $errorMessage = "Tahun terbit tidak boleh lebih dari tahun" . date('Y') . "dan masuk akal.";
     }
     
     if (empty($errorMessage)) {

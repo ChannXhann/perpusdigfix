@@ -63,10 +63,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
 
-     // Validasi nama pengarang: hanya huruf, spasi, titik, atau koma
-     if (!preg_match("/^[a-zA-Z\s.,]+$/", $penulis_buku)) {
+     // Validasi nama pengarang: hanya huruf, spasi, titik, atau koma dan koma atas
+     if (!preg_match("/^[a-zA-Z\s.,']+$/", $penulis_buku)) {
         echo "<script>
-           alert('Nama pengarang hanya boleh berisi huruf, spasi, titik, atau koma!');
+           alert('Nama pengarang hanya boleh berisi huruf, spasi, titik, koma atau petik atas!');
            window.location.href = 'tambahbuku.php';
          </script>";
         exit;
