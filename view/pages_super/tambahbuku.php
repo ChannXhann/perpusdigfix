@@ -82,14 +82,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Validasi tahun terbit: harus 4 digit angka
-    if (!preg_match("/^\d{4}$/", $tahun_terbit_buku)) {
+    if (!preg_match("/^\d{4}$/", $tahun_terbit_buku) || $tahun_terbit_buku > date('Y') || $tahun_terbit_buku < 1000) {
         echo "<script>
-           alert('Tahun terbit harus berupa 4 digit angka!');
+           alert('Tahun terbit harus berupa 4 digit angka dan masuk akal!');
            window.location.href = 'tambahbuku.php';
          </script>";
         exit;
     }
-    
+
     // Validasi duplikasi berdasarkan ISBN atau judul
     $check_duplicate = $conn->prepare(
         "SELECT * FROM buku WHERE isbn = :isbn OR judul_buku = :judul_buku"
